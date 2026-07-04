@@ -1,0 +1,2573 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Child poverty vs premature death (press Play: 2016 to 2025)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+:root{--ink:#1B2D55;--accent:#D44500;--link:#2B6CB0;--bg:#F5F7FA;--muted:#6C7A8D;--card:#ffffff;--line:#e2e8f0;}
+*{box-sizing:border-box;}body{margin:0;font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);font-weight:400;letter-spacing:-0.005em;}
+h1{font-weight:700;letter-spacing:-0.01em;}
+.controls h3{font-weight:600;}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 48px;}
+h1{font-size:1.5rem;margin:0 0 4px;color:var(--ink);}
+.sub{color:var(--muted);margin:0 0 16px;font-size:.95rem;}
+.panels{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start;}
+@media (max-width:780px){.panels{grid-template-columns:1fr;}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 1px 2px rgba(15,23,42,.05);}
+.controls h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;margin:8px 0 6px;color:var(--muted);}
+.controls label{display:block;font-size:.85rem;margin:8px 0 2px;color:var(--ink);font-weight:500;}
+.controls button{width:100%;padding:6px 8px;font-size:.85rem;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);cursor:pointer;}
+.controls button:hover{background:#eef2f7;}
+.chartcard{padding:14px;min-height:100px;}
+.meta{font-size:.78rem;color:var(--muted);margin-top:10px;}
+.note{margin-top:14px;color:var(--muted);font-size:.78rem;}
+.exportmenu{position:relative;}
+.exportbtn{width:100%;padding:6px 8px;font-size:.85rem;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);cursor:pointer;text-align:left;}
+.exportbtn:hover{background:#eef2f7;}
+.exportlist{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 4px 12px rgba(15,23,42,.12);z-index:40;display:flex;flex-direction:column;padding:4px;}
+.exportlist button{width:100%;padding:6px 8px;font-size:.85rem;border:none;border-radius:4px;background:none;color:var(--ink);cursor:pointer;text-align:left;}
+.exportlist button:hover{background:#eef2f7;}
+#chart-footer{display:none;justify-content:flex-end;align-items:center;gap:8px;padding:8px 0 0;border-top:1px solid var(--line);margin-top:8px;}
+#chart-footer.active{display:flex;}
+#chart-footer button{padding:4px 10px;font-size:.8rem;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);cursor:pointer;}
+#chart-footer button:hover{background:#eef2f7;}
+#chart-footer .exportmenu{position:relative;}
+#chart-footer .exportlist{left:auto;right:0;min-width:170px;}
+.panels.no-sidebar{grid-template-columns:1fr !important;}
+.controls.empty{display:none;}
+.gc-filters{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;align-items:flex-start;}
+.gc-filter-slot{min-height:34px;}
+.gc-filters label{display:block;font-size:.78rem;color:var(--muted);font-weight:500;margin-top:6px;}
+.gc-play{align-self:flex-start;width:auto;padding:5px 14px;font-size:.85rem;border:1px solid var(--link);border-radius:6px;background:var(--ink);color:#fff;cursor:pointer;font-weight:500;}
+.gc-play:hover{background:var(--link);}
+#datatable{display:none;margin-top:14px;border:1px solid var(--line);border-radius:8px;background:#fff;}
+#datatable.open{display:block;}
+#datatable .dt-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);background:#f8fafc;border-radius:8px 8px 0 0;font-size:.9rem;}
+#datatable .dt-count{color:var(--muted);font-size:.8rem;font-weight:normal;margin-left:8px;}
+#datatable .dt-close{background:none;border:none;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--muted);padding:0 4px;}
+#datatable .dt-scroll{max-height:360px;overflow:auto;}
+#datatable table.dt-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+#datatable .dt-table th{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);padding:6px 10px;text-align:left;font-weight:600;color:var(--ink);white-space:nowrap;}
+#datatable .dt-table td{padding:5px 10px;border-bottom:1px solid #f1f5f9;color:#334155;}
+#datatable .dt-table tr:hover td{background:#f8fafc;}
+#datatable .dt-truncated{padding:8px 12px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;background:#f8fafc;border-radius:0 0 8px 8px;}
+@media print {.controls{display:none !important;}#datatable{display:none !important;}.panels{grid-template-columns:1fr !important;}body{background:#fff;}}
+.gc-type-pie .panels, .gc-type-donut .panels { grid-template-columns: 240px max-content; justify-content: start; }
+.gc-type-pie .chartcard, .gc-type-donut .chartcard { width: max-content; max-width: 100%; }
+@media (max-width:780px){.gc-type-pie .panels,.gc-type-donut .panels{grid-template-columns:1fr;}.gc-type-pie .chartcard,.gc-type-donut .chartcard{width:auto;}}
+.gc-type-timeline #chart { overflow-x: auto; overflow-y: hidden; }
+.gc-type-timeline .chartcard { overflow: hidden; }
+.gc-type-table .chartcard { min-width: 0; max-width: 100%; overflow: hidden; }
+.gc-type-table #chart { overflow: hidden; min-width: 0; width: 100%; }
+.gc-table-wrap { border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+.gc-table-search { display: flex; gap: 8px; padding: 8px 12px; background:#f8fafc; border-bottom:1px solid var(--line); align-items:center;}
+.gc-table-search input { flex: 1; padding: 6px 10px; font-size: .88rem; border: 1px solid var(--line); border-radius: 6px; outline: none; }
+.gc-table-search input:focus { border-color: var(--link); box-shadow: 0 0 0 2px rgba(43,108,176,.15); }
+.gc-table-search .count { color: var(--muted); font-size: .78rem; white-space: nowrap; }
+.gc-table-wrap { overflow-x: auto; max-width: 100%; }
+.gc-table-wrap > div:not(.gc-table-search) { display: block; min-width: max-content; }
+.google-visualization-table-table { border-collapse: collapse !important; font-family: 'Montserrat',-apple-system,sans-serif !important; font-size: .85rem !important; width: auto !important; min-width: 100% !important; }
+.google-visualization-table-table th, .google-visualization-table-table td { white-space: nowrap !important; min-width: 180px !important; padding: 8px 12px !important; }
+.google-visualization-table-table th:first-child, .google-visualization-table-table td:first-child { min-width: 500px !important; }
+.google-visualization-table-table th { position: sticky; top: 0; background: var(--ink) !important; color: #fff !important; padding: 8px 10px !important; font-weight: 600 !important; text-align: left !important; border-bottom: 1px solid var(--line) !important; }
+.google-visualization-table-table td { padding: 6px 10px !important; border-bottom: 1px solid #f1f5f9 !important; color: #1B2D55 !important; vertical-align: top !important; }
+.google-visualization-table-table tr.google-visualization-table-tr-even td { background: #ffffff !important; }
+.google-visualization-table-table tr.google-visualization-table-tr-odd  td { background: #f8fafc !important; }
+.google-visualization-table-table tr.google-visualization-table-tr-over td { background: #eef2f7 !important; }
+.google-visualization-table-table td.gc-num { font-variant-numeric: tabular-nums; text-align: right; font-feature-settings:'tnum'; }
+.google-visualization-table-page-numbers { padding: 8px 12px !important; background:#f8fafc !important; border-top:1px solid var(--line) !important; }
+</style>
+</head><body class="gc-type-bubble">
+<div class="wrap">
+<h1>Child poverty vs premature death (press Play: 2016 to 2025)</h1>
+<div class="panels">
+  <div class="card controls" id="controls"></div>
+  <div class="card chartcard"><div id="chart"></div><div id="chart-footer"></div></div>
+</div>
+<div id="datatable"></div>
+<p class="note">2024-2025 actual CHR releases; 2016-2023 simulated to demo the Play control.</p>
+</div>
+<script>
+window.__GOOGLECHART__ = {
+"meta":{
+"type":"bubble","scheme":"tx2036",
+"width":920,"height":560,
+"title":"Child poverty vs premature death (press Play: 2016 to 2025)","subtitle":"","note":"2024-2025 actual CHR releases; 2016-2023 simulated to demo the Play control.",
+"xvar":"child_poverty","yvar":"premature_death",
+"xlabel":"Children in poverty (%)","ylabel":"Premature death (YPLL per 100,000)",
+"name":"usps","over":"highunins","level":"","time":"year",
+"namelabel":"","valuelabel":"",
+"levelorder":"","centerlevel":"",
+"download":1,"datatable":1,"animate":0,
+"tx2036style":1,"downloadpos":"below",
+"stacked":0,"normalize":0,"directlabels":0,
+"innerradius":.45,"bucketsize":0,
+"geo_region":"","geo_resolution":"",
+"combo_types":"","combo_default":"",
+"labelwrap":"auto",
+"legendpos":"",
+"table_search":0,
+"table_sticky":0,
+"table_frozencols":0
+},
+"filters":
+[],
+"data":[
+        {"x":24.4,"y":9454.2002,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2016,"t__uninsured":17}
+,
+        {"x":24.1,"y":9735,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2017,"t__uninsured":16.1}
+,
+        {"x":23.799999,"y":9877.5996,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2018,"t__uninsured":15.9}
+,
+        {"x":23.200001,"y":10157.7,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2019,"t__uninsured":14.7}
+,
+        {"x":22.700001,"y":11101.2,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2020,"t__uninsured":14.6}
+,
+        {"x":22.6,"y":11685.7,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2021,"t__uninsured":13.4}
+,
+        {"x":22.299999,"y":11329.9,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2022,"t__uninsured":12.8}
+,
+        {"x":21.9,"y":11207.8,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2023,"t__uninsured":12}
+,
+        {"x":21.799999,"y":11415.7,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2024,"t__uninsured":11.7}
+,
+        {"x":21.299999,"y":11853.2,"size":42.299999,"name":"AL","g":"Uninsured >= 10%","t":2025,"t__uninsured":10.5}
+,
+        {"x":17.5,"y":6838,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2016,"t__uninsured":12.6}
+,
+        {"x":16.9,"y":7110.3999,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2017,"t__uninsured":12.6}
+,
+        {"x":16.5,"y":7264.7002,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2018,"t__uninsured":12.6}
+,
+        {"x":15.7,"y":7665.7998,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2019,"t__uninsured":12.7}
+,
+        {"x":15,"y":8567.4004,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2020,"t__uninsured":12.6}
+,
+        {"x":14.6,"y":9176.9004,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2021,"t__uninsured":12.9}
+,
+        {"x":14.1,"y":8988,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2022,"t__uninsured":13}
+,
+        {"x":13.6,"y":8981.5996,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2023,"t__uninsured":12.9}
+,
+        {"x":13.4,"y":9414.7998,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2024,"t__uninsured":13.2}
+,
+        {"x":12.5,"y":10028,"size":35.099998,"name":"AK","g":"Uninsured >= 10%","t":2025,"t__uninsured":13.3}
+,
+        {"x":16.9,"y":6361.7002,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2016,"t__uninsured":14.7}
+,
+        {"x":16.6,"y":6610.2998,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2017,"t__uninsured":14.4}
+,
+        {"x":16.6,"y":6960.1001,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2018,"t__uninsured":14.6}
+,
+        {"x":16.9,"y":7123,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2019,"t__uninsured":14.4}
+,
+        {"x":16.700001,"y":7870,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2020,"t__uninsured":14.1}
+,
+        {"x":16.4,"y":8687.4004,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2021,"t__uninsured":13.7}
+,
+        {"x":16.4,"y":8534.4004,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2022,"t__uninsured":13.5}
+,
+        {"x":16.200001,"y":8455.4004,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2023,"t__uninsured":13.5}
+,
+        {"x":16,"y":8865.5,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2024,"t__uninsured":13.1}
+,
+        {"x":15.8,"y":9457.2998,"size":10.7,"name":"AZ","g":"Uninsured >= 10%","t":2025,"t__uninsured":12.7}
+,
+        {"x":25.4,"y":8289,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2016,"t__uninsured":16}
+,
+        {"x":24.799999,"y":8551.5996,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2017,"t__uninsured":15.1}
+,
+        {"x":24.5,"y":8841.5996,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2018,"t__uninsured":14.7}
+,
+        {"x":24.1,"y":9325.7002,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2019,"t__uninsured":13.9}
+,
+        {"x":23.299999,"y":10135.6,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2020,"t__uninsured":13.6}
+,
+        {"x":22.9,"y":10884.6,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2021,"t__uninsured":12.5}
+,
+        {"x":22.6,"y":10487,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2022,"t__uninsured":12.3}
+,
+        {"x":21.5,"y":10471.5,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2023,"t__uninsured":11.4}
+,
+        {"x":21.200001,"y":10823.1,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2024,"t__uninsured":11.1}
+,
+        {"x":20.200001,"y":11384,"size":44.5,"name":"AR","g":"Uninsured >= 10%","t":2025,"t__uninsured":10}
+,
+        {"x":16.6,"y":4773.7002,"size":5.8000002,"name":"CA","g":"Uninsured >= 10%","t":2016,"t__uninsured":10.6}
+,
+        {"x":16.4,"y":4892.8999,"size":5.8000002,"name":"CA","g":"Uninsured >= 10%","t":2017,"t__uninsured":10.2}
+,
+        {"x":15.9,"y":5032.5,"size":5.8000002,"name":"CA","g":"Uninsured >= 10%","t":2018,"t__uninsured":10}
+,
+        {"x":16.200001,"y":5444.7998,"size":5.8000002,"name":"CA","g":"Uninsured < 10%","t":2019,"t__uninsured":9.6000004}
+,
+        {"x":15.9,"y":6024.6001,"size":5.8000002,"name":"CA","g":"Uninsured < 10%","t":2020,"t__uninsured":9}
+,
+        {"x":15.9,"y":6405.7998,"size":5.8000002,"name":"CA","g":"Uninsured < 10%","t":2021,"t__uninsured":9.1999998}
+,
+        {"x":15.5,"y":6312.8999,"size":5.8000002,"name":"CA","g":"Uninsured < 10%","t":2022,"t__uninsured":8.3999996}
+,
+        {"x":15.5,"y":6140.6001,"size":5.8000002,"name":"CA","g":"Uninsured < 10%","t":2023,"t__uninsured":8.3000002}
+,
+        {"x":15.3,"y":6373.2002,"size":5.8000002,"name":"CA","g":"Uninsured < 10%","t":2024,"t__uninsured":8.1000004}
+,
+        {"x":15,"y":6744.1001,"size":5.8000002,"name":"CA","g":"Uninsured < 10%","t":2025,"t__uninsured":7.5}
+,
+        {"x":11.6,"y":5080.3999,"size":14,"name":"CO","g":"Uninsured >= 10%","t":2016,"t__uninsured":13.3}
+,
+        {"x":12.2,"y":5370.7002,"size":14,"name":"CO","g":"Uninsured >= 10%","t":2017,"t__uninsured":12.6}
+,
+        {"x":11.6,"y":5508.8999,"size":14,"name":"CO","g":"Uninsured >= 10%","t":2018,"t__uninsured":12.5}
+,
+        {"x":11.4,"y":5866.6001,"size":14,"name":"CO","g":"Uninsured >= 10%","t":2019,"t__uninsured":11.9}
+,
+        {"x":11.7,"y":6316.6001,"size":14,"name":"CO","g":"Uninsured >= 10%","t":2020,"t__uninsured":11.1}
+,
+        {"x":11.3,"y":6840.6001,"size":14,"name":"CO","g":"Uninsured >= 10%","t":2021,"t__uninsured":11}
+,
+        {"x":11.2,"y":6931,"size":14,"name":"CO","g":"Uninsured >= 10%","t":2022,"t__uninsured":10.7}
+,
+        {"x":11.5,"y":6827.7002,"size":14,"name":"CO","g":"Uninsured < 10%","t":2023,"t__uninsured":9.8999996}
+,
+        {"x":11.1,"y":6993.7998,"size":14,"name":"CO","g":"Uninsured < 10%","t":2024,"t__uninsured":9.3000002}
+,
+        {"x":10.9,"y":7405.1001,"size":14,"name":"CO","g":"Uninsured < 10%","t":2025,"t__uninsured":8.3999996}
+,
+        {"x":12.3,"y":5391.6001,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2016,"t__uninsured":5.3000002}
+,
+        {"x":12.8,"y":5683.7998,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2017,"t__uninsured":5.3000002}
+,
+        {"x":13,"y":5720.7998,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2018,"t__uninsured":6.0999999}
+,
+        {"x":13,"y":5885.6001,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2019,"t__uninsured":5.9000001}
+,
+        {"x":12.4,"y":6437.7998,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2020,"t__uninsured":6}
+,
+        {"x":13,"y":6603,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2021,"t__uninsured":6.0999999}
+,
+        {"x":12.8,"y":6457.7002,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2022,"t__uninsured":5.8000002}
+,
+        {"x":12.9,"y":6349.2998,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2023,"t__uninsured":6.0999999}
+,
+        {"x":12.9,"y":6480.3999,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2024,"t__uninsured":6}
+,
+        {"x":13,"y":6702.8999,"size":13.7,"name":"CT","g":"Uninsured < 10%","t":2025,"t__uninsured":6.0999999}
+,
+        {"x":9.8000002,"y":6843.7998,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2016,"t__uninsured":6.4000001}
+,
+        {"x":9.8999996,"y":7234.2002,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2017,"t__uninsured":6.4000001}
+,
+        {"x":10.7,"y":7444.6001,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2018,"t__uninsured":6.4000001}
+,
+        {"x":11.6,"y":7644.5,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2019,"t__uninsured":6.5999999}
+,
+        {"x":12,"y":8333.7002,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2020,"t__uninsured":6.9000001}
+,
+        {"x":12.7,"y":8837.7998,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2021,"t__uninsured":7.0999999}
+,
+        {"x":13.2,"y":8401.4004,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2022,"t__uninsured":7.0999999}
+,
+        {"x":14,"y":8476.2998,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2023,"t__uninsured":6.9000001}
+,
+        {"x":14.3,"y":8590.2002,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2024,"t__uninsured":6.9000001}
+,
+        {"x":15.4,"y":8958.7998,"size":17.4,"name":"DE","g":"Uninsured < 10%","t":2025,"t__uninsured":6.9000001}
+,
+        {"x":17.299999,"y":7749.1001,"size":0,"name":"DC","g":"Uninsured < 10%","t":2016,"t__uninsured":6.6999998}
+,
+        {"x":17.299999,"y":7886.8999,"size":0,"name":"DC","g":"Uninsured < 10%","t":2017,"t__uninsured":6.1999998}
+,
+        {"x":17.799999,"y":8039,"size":0,"name":"DC","g":"Uninsured < 10%","t":2018,"t__uninsured":5.8000002}
+,
+        {"x":18.200001,"y":8208.5,"size":0,"name":"DC","g":"Uninsured < 10%","t":2019,"t__uninsured":5.0999999}
+,
+        {"x":18.700001,"y":8886.2002,"size":0,"name":"DC","g":"Uninsured < 10%","t":2020,"t__uninsured":5.4000001}
+,
+        {"x":19.1,"y":9204.2002,"size":0,"name":"DC","g":"Uninsured < 10%","t":2021,"t__uninsured":4.8000002}
+,
+        {"x":19.6,"y":8966.5996,"size":0,"name":"DC","g":"Uninsured < 10%","t":2022,"t__uninsured":4.3000002}
+,
+        {"x":19.4,"y":8835.7002,"size":0,"name":"DC","g":"Uninsured < 10%","t":2023,"t__uninsured":3.8}
+,
+        {"x":20,"y":8976,"size":0,"name":"DC","g":"Uninsured < 10%","t":2024,"t__uninsured":3.7}
+,
+        {"x":20.700001,"y":9241.4004,"size":0,"name":"DC","g":"Uninsured < 10%","t":2025,"t__uninsured":3.0999999}
+,
+        {"x":23.200001,"y":7071,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2016,"t__uninsured":20.200001}
+,
+        {"x":22.4,"y":7259.7002,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2017,"t__uninsured":20.1}
+,
+        {"x":21.299999,"y":7385.8999,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2018,"t__uninsured":19.4}
+,
+        {"x":20.700001,"y":7500.3999,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2019,"t__uninsured":18.1}
+,
+        {"x":19.799999,"y":8142.7998,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2020,"t__uninsured":17.5}
+,
+        {"x":19.5,"y":8588.4004,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2021,"t__uninsured":17.1}
+,
+        {"x":18.700001,"y":8289.2002,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2022,"t__uninsured":16.4}
+,
+        {"x":18.1,"y":8251.0996,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2023,"t__uninsured":15.4}
+,
+        {"x":17.299999,"y":8299.0996,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2024,"t__uninsured":15.1}
+,
+        {"x":16,"y":8552.7002,"size":8.5,"name":"FL","g":"Uninsured >= 10%","t":2025,"t__uninsured":13.9}
+,
+        {"x":9.8000002,"y":6663.2998,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2016,"t__uninsured":20.299999}
+,
+        {"x":11.3,"y":6973.1001,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2017,"t__uninsured":19.200001}
+,
+        {"x":11.6,"y":7292.7998,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2018,"t__uninsured":18.299999}
+,
+        {"x":12.8,"y":7583.5,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2019,"t__uninsured":18.200001}
+,
+        {"x":13.7,"y":8203.5996,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2020,"t__uninsured":17.5}
+,
+        {"x":14.6,"y":8845.5,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2021,"t__uninsured":16.4}
+,
+        {"x":15.1,"y":8622.0996,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2022,"t__uninsured":16.299999}
+,
+        {"x":16,"y":8555.7998,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2023,"t__uninsured":15.7}
+,
+        {"x":17.200001,"y":8920.9004,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2024,"t__uninsured":14.8}
+,
+        {"x":18.799999,"y":9405.7002,"size":25.9,"name":"GA","g":"Uninsured >= 10%","t":2025,"t__uninsured":13.6}
+,
+        {"x":13.6,"y":5567.7998,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2016,"t__uninsured":5}
+,
+        {"x":13.6,"y":5628.8999,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2017,"t__uninsured":4.9000001}
+,
+        {"x":13,"y":5592.7002,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2018,"t__uninsured":4.6999998}
+,
+        {"x":13.2,"y":5663.1001,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2019,"t__uninsured":4.9000001}
+,
+        {"x":12.6,"y":6175.2002,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2020,"t__uninsured":4.4000001}
+,
+        {"x":12.3,"y":6499.2002,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2021,"t__uninsured":4.3000002}
+,
+        {"x":12.2,"y":6225.1001,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2022,"t__uninsured":4.6999998}
+,
+        {"x":12,"y":5931,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2023,"t__uninsured":4.0999999}
+,
+        {"x":12.1,"y":6148.1001,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2024,"t__uninsured":4.4000001}
+,
+        {"x":11.8,"y":6298.6001,"size":13.9,"name":"HI","g":"Uninsured < 10%","t":2025,"t__uninsured":4.3000002}
+,
+        {"x":17,"y":5643.2002,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2016,"t__uninsured":13.3}
+,
+        {"x":16,"y":5708.7002,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2017,"t__uninsured":13.1}
+,
+        {"x":15.8,"y":5834,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2018,"t__uninsured":12.7}
+,
+        {"x":15.2,"y":6181.2998,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2019,"t__uninsured":12.4}
+,
+        {"x":14.4,"y":6490.8999,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2020,"t__uninsured":11.8}
+,
+        {"x":14,"y":6858.2002,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2021,"t__uninsured":11.8}
+,
+        {"x":13.7,"y":6934.3999,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2022,"t__uninsured":10.8}
+,
+        {"x":12.5,"y":6722.3999,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2023,"t__uninsured":11}
+,
+        {"x":12.3,"y":6827.3999,"size":30.799999,"name":"ID","g":"Uninsured >= 10%","t":2024,"t__uninsured":10.5}
+,
+        {"x":11.3,"y":7098.7998,"size":30.799999,"name":"ID","g":"Uninsured < 10%","t":2025,"t__uninsured":9.8000002}
+,
+        {"x":19.700001,"y":5848.6001,"size":13.1,"name":"IL","g":"Uninsured >= 10%","t":2016,"t__uninsured":10.6}
+,
+        {"x":19.6,"y":6181.2002,"size":13.1,"name":"IL","g":"Uninsured >= 10%","t":2017,"t__uninsured":10.3}
+,
+        {"x":19.200001,"y":6258.2002,"size":13.1,"name":"IL","g":"Uninsured >= 10%","t":2018,"t__uninsured":10.1}
+,
+        {"x":18.200001,"y":6664.7998,"size":13.1,"name":"IL","g":"Uninsured < 10%","t":2019,"t__uninsured":9.8999996}
+,
+        {"x":18.1,"y":7264.6001,"size":13.1,"name":"IL","g":"Uninsured < 10%","t":2020,"t__uninsured":9.1000004}
+,
+        {"x":17.200001,"y":7508,"size":13.1,"name":"IL","g":"Uninsured < 10%","t":2021,"t__uninsured":9.1000004}
+,
+        {"x":16.799999,"y":7284.1001,"size":13.1,"name":"IL","g":"Uninsured < 10%","t":2022,"t__uninsured":9.1000004}
+,
+        {"x":16.5,"y":7219.6001,"size":13.1,"name":"IL","g":"Uninsured < 10%","t":2023,"t__uninsured":8.8000002}
+,
+        {"x":15.7,"y":7549,"size":13.1,"name":"IL","g":"Uninsured < 10%","t":2024,"t__uninsured":8.1999998}
+,
+        {"x":14.7,"y":7920.5,"size":13.1,"name":"IL","g":"Uninsured < 10%","t":2025,"t__uninsured":7.6999998}
+,
+        {"x":17.1,"y":7032.8999,"size":28.799999,"name":"IN","g":"Uninsured >= 10%","t":2016,"t__uninsured":11.6}
+,
+        {"x":16.5,"y":7407.1001,"size":28.799999,"name":"IN","g":"Uninsured >= 10%","t":2017,"t__uninsured":11.9}
+,
+        {"x":16.200001,"y":7632,"size":28.799999,"name":"IN","g":"Uninsured >= 10%","t":2018,"t__uninsured":11.2}
+,
+        {"x":16,"y":7861.6001,"size":28.799999,"name":"IN","g":"Uninsured >= 10%","t":2019,"t__uninsured":10.7}
+,
+        {"x":15.9,"y":8836.2002,"size":28.799999,"name":"IN","g":"Uninsured >= 10%","t":2020,"t__uninsured":10.5}
+,
+        {"x":15.9,"y":9220.5996,"size":28.799999,"name":"IN","g":"Uninsured < 10%","t":2021,"t__uninsured":9.8000002}
+,
+        {"x":16.1,"y":9175.4004,"size":28.799999,"name":"IN","g":"Uninsured < 10%","t":2022,"t__uninsured":9.3999996}
+,
+        {"x":15.9,"y":9149.2998,"size":28.799999,"name":"IN","g":"Uninsured < 10%","t":2023,"t__uninsured":9.1999998}
+,
+        {"x":15.4,"y":9317.0996,"size":28.799999,"name":"IN","g":"Uninsured < 10%","t":2024,"t__uninsured":8.8999996}
+,
+        {"x":15.1,"y":9809.9004,"size":28.799999,"name":"IN","g":"Uninsured < 10%","t":2025,"t__uninsured":8.1999998}
+,
+        {"x":8.8999996,"y":5822.3999,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2016,"t__uninsured":7.5999999}
+,
+        {"x":9.8999996,"y":5949,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2017,"t__uninsured":7.3000002}
+,
+        {"x":9.8000002,"y":6186.7998,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2018,"t__uninsured":6.8000002}
+,
+        {"x":10.4,"y":6165.5,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2019,"t__uninsured":7.0999999}
+,
+        {"x":10.5,"y":6592.8999,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2020,"t__uninsured":6.5}
+,
+        {"x":11.4,"y":6935.1001,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2021,"t__uninsured":6.8000002}
+,
+        {"x":11.7,"y":7038,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2022,"t__uninsured":6.4000001}
+,
+        {"x":12.3,"y":6691.6001,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2023,"t__uninsured":6.4000001}
+,
+        {"x":12.3,"y":6934.5,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2024,"t__uninsured":5.8000002}
+,
+        {"x":13,"y":7201.1001,"size":36.799999,"name":"IA","g":"Uninsured < 10%","t":2025,"t__uninsured":5.4000001}
+,
+        {"x":16.5,"y":5710.5,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2016,"t__uninsured":14.1}
+,
+        {"x":16.200001,"y":6097.8999,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2017,"t__uninsured":13.8}
+,
+        {"x":16,"y":6286.1001,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2018,"t__uninsured":13.1}
+,
+        {"x":15.6,"y":6606.7998,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2019,"t__uninsured":12.5}
+,
+        {"x":14.9,"y":7302.7002,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2020,"t__uninsured":12.2}
+,
+        {"x":14.9,"y":8031.1001,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2021,"t__uninsured":12.3}
+,
+        {"x":14.3,"y":7739.6001,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2022,"t__uninsured":11.9}
+,
+        {"x":14.2,"y":7744.3999,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2023,"t__uninsured":11.3}
+,
+        {"x":13.7,"y":8079.1001,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2024,"t__uninsured":10.9}
+,
+        {"x":13.1,"y":8588.5996,"size":27.700001,"name":"KS","g":"Uninsured >= 10%","t":2025,"t__uninsured":10.2}
+,
+        {"x":22.5,"y":8319.5,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2016,"t__uninsured":7.6999998}
+,
+        {"x":21.9,"y":8547.0996,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2017,"t__uninsured":7.5999999}
+,
+        {"x":22.299999,"y":9088.4004,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2018,"t__uninsured":7.3000002}
+,
+        {"x":21.700001,"y":9401.7002,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2019,"t__uninsured":7.3000002}
+,
+        {"x":21.700001,"y":10392.4,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2020,"t__uninsured":7}
+,
+        {"x":21.5,"y":10927.4,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2021,"t__uninsured":7.1999998}
+,
+        {"x":20.799999,"y":10781.7,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2022,"t__uninsured":7.3000002}
+,
+        {"x":21.1,"y":10593.5,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2023,"t__uninsured":6.9000001}
+,
+        {"x":20.6,"y":11054.6,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2024,"t__uninsured":6.8000002}
+,
+        {"x":20.200001,"y":11686.5,"size":41.299999,"name":"KY","g":"Uninsured < 10%","t":2025,"t__uninsured":6.5999999}
+,
+        {"x":23.4,"y":8395.4004,"size":28.5,"name":"LA","g":"Uninsured >= 10%","t":2016,"t__uninsured":13.2}
+,
+        {"x":23.6,"y":8739.5,"size":28.5,"name":"LA","g":"Uninsured >= 10%","t":2017,"t__uninsured":12.3}
+,
+        {"x":24,"y":9066.9004,"size":28.5,"name":"LA","g":"Uninsured >= 10%","t":2018,"t__uninsured":12.1}
+,
+        {"x":24.1,"y":9516.4004,"size":28.5,"name":"LA","g":"Uninsured >= 10%","t":2019,"t__uninsured":11.9}
+,
+        {"x":24.200001,"y":10515.4,"size":28.5,"name":"LA","g":"Uninsured >= 10%","t":2020,"t__uninsured":10.8}
+,
+        {"x":24.799999,"y":11270.4,"size":28.5,"name":"LA","g":"Uninsured >= 10%","t":2021,"t__uninsured":10.3}
+,
+        {"x":24.299999,"y":11162.1,"size":28.5,"name":"LA","g":"Uninsured < 10%","t":2022,"t__uninsured":9.8000002}
+,
+        {"x":25,"y":11004.5,"size":28.5,"name":"LA","g":"Uninsured < 10%","t":2023,"t__uninsured":9.8999996}
+,
+        {"x":24.9,"y":11463.6,"size":28.5,"name":"LA","g":"Uninsured < 10%","t":2024,"t__uninsured":9.1999998}
+,
+        {"x":25.200001,"y":12185.4,"size":28.5,"name":"LA","g":"Uninsured < 10%","t":2025,"t__uninsured":8.3000002}
+,
+        {"x":11.7,"y":5072.1001,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2016,"t__uninsured":2.4000001}
+,
+        {"x":11.3,"y":5593,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2017,"t__uninsured":3.2}
+,
+        {"x":11.6,"y":5801.1001,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2018,"t__uninsured":3.8}
+,
+        {"x":11.5,"y":6056.2002,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2019,"t__uninsured":4.1999998}
+,
+        {"x":11.8,"y":6821.8999,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2020,"t__uninsured":5.3000002}
+,
+        {"x":12,"y":7365.7002,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2021,"t__uninsured":5.3000002}
+,
+        {"x":11.8,"y":7443.7002,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2022,"t__uninsured":6.4000001}
+,
+        {"x":12.5,"y":7459.7998,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2023,"t__uninsured":6.6999998}
+,
+        {"x":12.4,"y":7811.7998,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2024,"t__uninsured":7.3000002}
+,
+        {"x":12.6,"y":8420.7002,"size":61.400002,"name":"ME","g":"Uninsured < 10%","t":2025,"t__uninsured":8.3999996}
+,
+        {"x":15.9,"y":7109.2998,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2016,"t__uninsured":8.1000004}
+,
+        {"x":15.6,"y":7280.2998,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2017,"t__uninsured":7.5999999}
+,
+        {"x":14.9,"y":7271,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2018,"t__uninsured":7.5}
+,
+        {"x":14.1,"y":7547.2998,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2019,"t__uninsured":7.1999998}
+,
+        {"x":13.9,"y":8057.7998,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2020,"t__uninsured":7.1999998}
+,
+        {"x":13.6,"y":8314.5,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2021,"t__uninsured":7.5999999}
+,
+        {"x":13.4,"y":7912.2998,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2022,"t__uninsured":7}
+,
+        {"x":12.7,"y":7866.7998,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2023,"t__uninsured":7.1999998}
+,
+        {"x":12.1,"y":7921.3999,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2024,"t__uninsured":7}
+,
+        {"x":11.3,"y":8091.1001,"size":14.4,"name":"MD","g":"Uninsured < 10%","t":2025,"t__uninsured":6.8000002}
+,
+        {"x":6.6999998,"y":5299.2998,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2016,"t__uninsured":3.2}
+,
+        {"x":7.5999999,"y":5271.6001,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2017,"t__uninsured":3.2}
+,
+        {"x":7.8000002,"y":5347.3999,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2018,"t__uninsured":3}
+,
+        {"x":8.8999996,"y":5523.8999,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2019,"t__uninsured":2.5999999}
+,
+        {"x":9.3000002,"y":5951.7002,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2020,"t__uninsured":2.5999999}
+,
+        {"x":9.6999998,"y":6118.3999,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2021,"t__uninsured":3.0999999}
+,
+        {"x":10.5,"y":6094.7998,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2022,"t__uninsured":3.2}
+,
+        {"x":11,"y":5661.5,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2023,"t__uninsured":2.8}
+,
+        {"x":11.6,"y":5856.3999,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2024,"t__uninsured":2.9000001}
+,
+        {"x":12.7,"y":5974.5,"size":8.6999998,"name":"MA","g":"Uninsured < 10%","t":2025,"t__uninsured":2.9000001}
+,
+        {"x":18.9,"y":7047.7002,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2016,"t__uninsured":8.3999996}
+,
+        {"x":19,"y":7248.2998,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2017,"t__uninsured":7.6999998}
+,
+        {"x":18.6,"y":7385.3999,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2018,"t__uninsured":8.1000004}
+,
+        {"x":18.4,"y":7694.1001,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2019,"t__uninsured":7.5}
+,
+        {"x":18.700001,"y":8237,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2020,"t__uninsured":7.1999998}
+,
+        {"x":18.200001,"y":8596.5996,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2021,"t__uninsured":6.5999999}
+,
+        {"x":18.299999,"y":8525,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2022,"t__uninsured":6.9000001}
+,
+        {"x":17.9,"y":8391.7002,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2023,"t__uninsured":6.3000002}
+,
+        {"x":17.799999,"y":8467.5996,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2024,"t__uninsured":6}
+,
+        {"x":17.5,"y":8798,"size":26.5,"name":"MI","g":"Uninsured < 10%","t":2025,"t__uninsured":5.5}
+,
+        {"x":13.8,"y":4639.7002,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2016,"t__uninsured":5}
+,
+        {"x":13.4,"y":4810.5,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2017,"t__uninsured":5}
+,
+        {"x":12.9,"y":5014.1001,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2018,"t__uninsured":5}
+,
+        {"x":12.8,"y":5081.5,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2019,"t__uninsured":5.3000002}
+,
+        {"x":12.7,"y":5546.2998,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2020,"t__uninsured":5.0999999}
+,
+        {"x":12.1,"y":6060.7002,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2021,"t__uninsured":5.5}
+,
+        {"x":11.4,"y":5997.5,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2022,"t__uninsured":5.3000002}
+,
+        {"x":10.9,"y":6027.7002,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2023,"t__uninsured":5.5}
+,
+        {"x":10.9,"y":6116.7998,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2024,"t__uninsured":5.3000002}
+,
+        {"x":10.2,"y":6461.8999,"size":28.1,"name":"MN","g":"Uninsured < 10%","t":2025,"t__uninsured":5.4000001}
+,
+        {"x":35.599998,"y":9814.2002,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2016,"t__uninsured":19.799999}
+,
+        {"x":34.299999,"y":10297.1,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2017,"t__uninsured":19}
+,
+        {"x":33,"y":10618.2,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2018,"t__uninsured":18.4}
+,
+        {"x":32.5,"y":10828.8,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2019,"t__uninsured":17.6}
+,
+        {"x":31.1,"y":11928.8,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2020,"t__uninsured":17.1}
+,
+        {"x":29.799999,"y":12773.4,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2021,"t__uninsured":16.700001}
+,
+        {"x":28.5,"y":12591.4,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2022,"t__uninsured":15.4}
+,
+        {"x":27.200001,"y":12307,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2023,"t__uninsured":15.4}
+,
+        {"x":26.4,"y":12697.5,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2024,"t__uninsured":14.3}
+,
+        {"x":24.299999,"y":13327.7,"size":53.700001,"name":"MS","g":"Uninsured >= 10%","t":2025,"t__uninsured":13.1}
+,
+        {"x":26,"y":7422.1001,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2016,"t__uninsured":16.5}
+,
+        {"x":24.5,"y":7660.8999,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2017,"t__uninsured":15.5}
+,
+        {"x":24,"y":7944.6001,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2018,"t__uninsured":14.8}
+,
+        {"x":22.6,"y":8057,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2019,"t__uninsured":14.4}
+,
+        {"x":21,"y":9026.0996,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2020,"t__uninsured":13.8}
+,
+        {"x":20.299999,"y":9488.7998,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2021,"t__uninsured":13.2}
+,
+        {"x":19.4,"y":9151.7998,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2022,"t__uninsured":12.5}
+,
+        {"x":17.700001,"y":9191.2002,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2023,"t__uninsured":12.2}
+,
+        {"x":16.799999,"y":9478.0996,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2024,"t__uninsured":11.4}
+,
+        {"x":14.7,"y":9969.5996,"size":30.5,"name":"MO","g":"Uninsured >= 10%","t":2025,"t__uninsured":10.2}
+,
+        {"x":18.1,"y":6951.1001,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2016,"t__uninsured":10.9}
+,
+        {"x":17.299999,"y":7036,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2017,"t__uninsured":10.3}
+,
+        {"x":17.299999,"y":7120.7998,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2018,"t__uninsured":10.4}
+,
+        {"x":16.700001,"y":7348.3999,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2019,"t__uninsured":10.2}
+,
+        {"x":15.9,"y":8135,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2020,"t__uninsured":10.7}
+,
+        {"x":15.1,"y":8453.7002,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2021,"t__uninsured":10.8}
+,
+        {"x":15.1,"y":8356.9004,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2022,"t__uninsured":10.8}
+,
+        {"x":14.3,"y":8261.7998,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2023,"t__uninsured":10.8}
+,
+        {"x":13.8,"y":8418.0996,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2024,"t__uninsured":10.5}
+,
+        {"x":12.8,"y":8781.7002,"size":46.599998,"name":"MT","g":"Uninsured >= 10%","t":2025,"t__uninsured":10.5}
+,
+        {"x":23.9,"y":5826.2002,"size":27,"name":"NE","g":"Uninsured >= 10%","t":2016,"t__uninsured":11.6}
+,
+        {"x":22.299999,"y":5959.8999,"size":27,"name":"NE","g":"Uninsured >= 10%","t":2017,"t__uninsured":11.4}
+,
+        {"x":21.799999,"y":5944,"size":27,"name":"NE","g":"Uninsured >= 10%","t":2018,"t__uninsured":10.6}
+,
+        {"x":20.200001,"y":6246.3999,"size":27,"name":"NE","g":"Uninsured >= 10%","t":2019,"t__uninsured":10.9}
+,
+        {"x":18.5,"y":6715.7002,"size":27,"name":"NE","g":"Uninsured >= 10%","t":2020,"t__uninsured":10.3}
+,
+        {"x":17.700001,"y":6849.2002,"size":27,"name":"NE","g":"Uninsured < 10%","t":2021,"t__uninsured":9.8999996}
+,
+        {"x":15.8,"y":6675.2002,"size":27,"name":"NE","g":"Uninsured < 10%","t":2022,"t__uninsured":9}
+,
+        {"x":14.5,"y":6697.6001,"size":27,"name":"NE","g":"Uninsured < 10%","t":2023,"t__uninsured":9.1000004}
+,
+        {"x":13.5,"y":6820.2998,"size":27,"name":"NE","g":"Uninsured < 10%","t":2024,"t__uninsured":8.5}
+,
+        {"x":11.1,"y":7072.1001,"size":27,"name":"NE","g":"Uninsured < 10%","t":2025,"t__uninsured":7.6999998}
+,
+        {"x":16.700001,"y":6514.6001,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2016,"t__uninsured":16.299999}
+,
+        {"x":16.5,"y":6604,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2017,"t__uninsured":15.8}
+,
+        {"x":16.9,"y":6842.2002,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2018,"t__uninsured":15.5}
+,
+        {"x":16.9,"y":7143.5,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2019,"t__uninsured":15}
+,
+        {"x":16.5,"y":7919.8999,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2020,"t__uninsured":15}
+,
+        {"x":16.4,"y":8445,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2021,"t__uninsured":14.4}
+,
+        {"x":16.9,"y":8082.1001,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2022,"t__uninsured":14}
+,
+        {"x":16.299999,"y":8031.1001,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2023,"t__uninsured":14.5}
+,
+        {"x":16.5,"y":8316.9004,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2024,"t__uninsured":13.8}
+,
+        {"x":16.4,"y":8741.0996,"size":5.9000001,"name":"NV","g":"Uninsured >= 10%","t":2025,"t__uninsured":13.2}
+,
+        {"x":5.9000001,"y":6041.8999,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2016,"t__uninsured":7}
+,
+        {"x":5.8000002,"y":6119.7002,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2017,"t__uninsured":6.5999999}
+,
+        {"x":5.6999998,"y":6005.1001,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2018,"t__uninsured":6.5}
+,
+        {"x":6.5,"y":6249.6001,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2019,"t__uninsured":6.5}
+,
+        {"x":7,"y":6746.5,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2020,"t__uninsured":6.4000001}
+,
+        {"x":7,"y":7011.5,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2021,"t__uninsured":6.4000001}
+,
+        {"x":7.4000001,"y":6479.2998,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2022,"t__uninsured":6.5999999}
+,
+        {"x":7.0999999,"y":6354.6001,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2023,"t__uninsured":6.0999999}
+,
+        {"x":7.6999998,"y":6498.7998,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2024,"t__uninsured":6.3000002}
+,
+        {"x":8.1999998,"y":6622.3999,"size":41.700001,"name":"NH","g":"Uninsured < 10%","t":2025,"t__uninsured":6.1999998}
+,
+        {"x":11.9,"y":6316.8999,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2016,"t__uninsured":9.8000002}
+,
+        {"x":12.2,"y":6257.5,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2017,"t__uninsured":9}
+,
+        {"x":12.7,"y":6265,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2018,"t__uninsured":9.1999998}
+,
+        {"x":12.7,"y":6498.8999,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2019,"t__uninsured":8.8999996}
+,
+        {"x":12.6,"y":6826.1001,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2020,"t__uninsured":8.8999996}
+,
+        {"x":12.4,"y":7157.7002,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2021,"t__uninsured":8.6999998}
+,
+        {"x":12.2,"y":6635.7998,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2022,"t__uninsured":8.3999996}
+,
+        {"x":12.3,"y":6564.2002,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2023,"t__uninsured":8.3000002}
+,
+        {"x":12.7,"y":6516.2998,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2024,"t__uninsured":8.3000002}
+,
+        {"x":12.8,"y":6562.2998,"size":6.1999998,"name":"NJ","g":"Uninsured < 10%","t":2025,"t__uninsured":8}
+,
+        {"x":23.9,"y":8032,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2016,"t__uninsured":21}
+,
+        {"x":24.1,"y":8364.2998,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2017,"t__uninsured":20}
+,
+        {"x":23.799999,"y":8867.2002,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2018,"t__uninsured":19.200001}
+,
+        {"x":23.799999,"y":9247,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2019,"t__uninsured":17.9}
+,
+        {"x":23.5,"y":10457.6,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2020,"t__uninsured":17.1}
+,
+        {"x":23.700001,"y":11285.2,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2021,"t__uninsured":15.9}
+,
+        {"x":23.5,"y":11052.6,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2022,"t__uninsured":14.9}
+,
+        {"x":22.799999,"y":11084.3,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2023,"t__uninsured":13.4}
+,
+        {"x":22.9,"y":11557.9,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2024,"t__uninsured":12.6}
+,
+        {"x":22.6,"y":12363.3,"size":25.5,"name":"NM","g":"Uninsured >= 10%","t":2025,"t__uninsured":10.6}
+,
+        {"x":18.700001,"y":5186.1001,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2016,"t__uninsured":8}
+,
+        {"x":18.4,"y":5353.7998,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2017,"t__uninsured":7.5999999}
+,
+        {"x":18.799999,"y":5361.5,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2018,"t__uninsured":7.9000001}
+,
+        {"x":18.4,"y":5640.7998,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2019,"t__uninsured":7.3000002}
+,
+        {"x":18.799999,"y":5953.5,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2020,"t__uninsured":6.8000002}
+,
+        {"x":18.700001,"y":6414.5,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2021,"t__uninsured":7.1999998}
+,
+        {"x":18.5,"y":6254.2998,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2022,"t__uninsured":6.8000002}
+,
+        {"x":18.5,"y":6135.7998,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2023,"t__uninsured":6.6999998}
+,
+        {"x":18.6,"y":6351.1001,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2024,"t__uninsured":6.0999999}
+,
+        {"x":18.6,"y":6637.2002,"size":12.6,"name":"NY","g":"Uninsured < 10%","t":2025,"t__uninsured":5.6999998}
+,
+        {"x":16.700001,"y":6368.6001,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2016,"t__uninsured":18.299999}
+,
+        {"x":16.4,"y":6540.7998,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2017,"t__uninsured":17.200001}
+,
+        {"x":16.6,"y":6953.7002,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2018,"t__uninsured":16.799999}
+,
+        {"x":16.4,"y":7345,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2019,"t__uninsured":16}
+,
+        {"x":17,"y":7990.2002,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2020,"t__uninsured":15.2}
+,
+        {"x":17.1,"y":8650.0996,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2021,"t__uninsured":14.6}
+,
+        {"x":16.799999,"y":8506.7002,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2022,"t__uninsured":14.1}
+,
+        {"x":17.200001,"y":8506.0996,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2023,"t__uninsured":13.1}
+,
+        {"x":17.299999,"y":8852.5996,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2024,"t__uninsured":12.5}
+,
+        {"x":17.5,"y":9440.5996,"size":33.299999,"name":"NC","g":"Uninsured >= 10%","t":2025,"t__uninsured":11.2}
+,
+        {"x":21.6,"y":6016.3999,"size":39,"name":"ND","g":"Uninsured >= 10%","t":2016,"t__uninsured":17.9}
+,
+        {"x":20.700001,"y":6151.3999,"size":39,"name":"ND","g":"Uninsured >= 10%","t":2017,"t__uninsured":16.700001}
+,
+        {"x":19.4,"y":6416.2002,"size":39,"name":"ND","g":"Uninsured >= 10%","t":2018,"t__uninsured":16.1}
+,
+        {"x":18.1,"y":6651.2998,"size":39,"name":"ND","g":"Uninsured >= 10%","t":2019,"t__uninsured":14.5}
+,
+        {"x":17.4,"y":7315.7998,"size":39,"name":"ND","g":"Uninsured >= 10%","t":2020,"t__uninsured":13.6}
+,
+        {"x":15.6,"y":7596.5,"size":39,"name":"ND","g":"Uninsured >= 10%","t":2021,"t__uninsured":12.7}
+,
+        {"x":14.7,"y":7574.7998,"size":39,"name":"ND","g":"Uninsured >= 10%","t":2022,"t__uninsured":11.1}
+,
+        {"x":13.6,"y":7367.2002,"size":39,"name":"ND","g":"Uninsured >= 10%","t":2023,"t__uninsured":10}
+,
+        {"x":12.3,"y":7634.1001,"size":39,"name":"ND","g":"Uninsured < 10%","t":2024,"t__uninsured":9.1999998}
+,
+        {"x":10.1,"y":8019.8999,"size":39,"name":"ND","g":"Uninsured < 10%","t":2025,"t__uninsured":7.1999998}
+,
+        {"x":18.6,"y":7833.2002,"size":23.700001,"name":"OH","g":"Uninsured >= 10%","t":2016,"t__uninsured":11.5}
+,
+        {"x":18.200001,"y":8147,"size":23.700001,"name":"OH","g":"Uninsured >= 10%","t":2017,"t__uninsured":10.9}
+,
+        {"x":18.1,"y":8190.2002,"size":23.700001,"name":"OH","g":"Uninsured >= 10%","t":2018,"t__uninsured":10.2}
+,
+        {"x":18.6,"y":8361,"size":23.700001,"name":"OH","g":"Uninsured < 10%","t":2019,"t__uninsured":9.8999996}
+,
+        {"x":18.299999,"y":9254.5996,"size":23.700001,"name":"OH","g":"Uninsured < 10%","t":2020,"t__uninsured":9.3999996}
+,
+        {"x":18.4,"y":9587.2002,"size":23.700001,"name":"OH","g":"Uninsured < 10%","t":2021,"t__uninsured":8.6999998}
+,
+        {"x":17.5,"y":9438.5,"size":23.700001,"name":"OH","g":"Uninsured < 10%","t":2022,"t__uninsured":8.3999996}
+,
+        {"x":17.700001,"y":9295.7998,"size":23.700001,"name":"OH","g":"Uninsured < 10%","t":2023,"t__uninsured":8.5}
+,
+        {"x":17.700001,"y":9394.2998,"size":23.700001,"name":"OH","g":"Uninsured < 10%","t":2024,"t__uninsured":7.8000002}
+,
+        {"x":17.5,"y":9740,"size":23.700001,"name":"OH","g":"Uninsured < 10%","t":2025,"t__uninsured":7.0999999}
+,
+        {"x":16.200001,"y":7754.2998,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2016,"t__uninsured":27.799999}
+,
+        {"x":16.299999,"y":8085.2998,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2017,"t__uninsured":26.6}
+,
+        {"x":17.1,"y":8486.0996,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2018,"t__uninsured":25.4}
+,
+        {"x":17.4,"y":8701.2998,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2019,"t__uninsured":23.5}
+,
+        {"x":18.200001,"y":9590.2998,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2020,"t__uninsured":22.5}
+,
+        {"x":18.4,"y":10235.5,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2021,"t__uninsured":21.299999}
+,
+        {"x":19.1,"y":10080.2,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2022,"t__uninsured":19.6}
+,
+        {"x":19.5,"y":10094.9,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2023,"t__uninsured":18.299999}
+,
+        {"x":19.700001,"y":10334,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2024,"t__uninsured":16.9}
+,
+        {"x":20.5,"y":10910.7,"size":35.400002,"name":"OK","g":"Uninsured >= 10%","t":2025,"t__uninsured":14.3}
+,
+        {"x":13.2,"y":4378,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2016,"t__uninsured":7.5}
+,
+        {"x":13.2,"y":4595.7998,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2017,"t__uninsured":7}
+,
+        {"x":14,"y":5105.1001,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2018,"t__uninsured":7.4000001}
+,
+        {"x":13.7,"y":5379,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2019,"t__uninsured":7.0999999}
+,
+        {"x":13.3,"y":5774.7002,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2020,"t__uninsured":7.0999999}
+,
+        {"x":13.6,"y":6479.3999,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2021,"t__uninsured":7.1999998}
+,
+        {"x":13.3,"y":6338.8999,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2022,"t__uninsured":7.6999998}
+,
+        {"x":13.6,"y":6309.3999,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2023,"t__uninsured":7.0999999}
+,
+        {"x":13.6,"y":6704.5,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2024,"t__uninsured":7.4000001}
+,
+        {"x":13.6,"y":7218.7002,"size":19.5,"name":"OR","g":"Uninsured < 10%","t":2025,"t__uninsured":7.4000001}
+,
+        {"x":14.2,"y":7032.2002,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2016,"t__uninsured":7.0999999}
+,
+        {"x":14.1,"y":7092.5,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2017,"t__uninsured":7}
+,
+        {"x":14.4,"y":7106.8999,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2018,"t__uninsured":7.5}
+,
+        {"x":14.7,"y":7354.6001,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2019,"t__uninsured":7.4000001}
+,
+        {"x":14.8,"y":7953.7998,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2020,"t__uninsured":7.0999999}
+,
+        {"x":14.6,"y":8383.4004,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2021,"t__uninsured":7.0999999}
+,
+        {"x":15.1,"y":7988.7998,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2022,"t__uninsured":6.5999999}
+,
+        {"x":15.3,"y":7864.7002,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2023,"t__uninsured":7}
+,
+        {"x":15.2,"y":8032.2998,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2024,"t__uninsured":6.6999998}
+,
+        {"x":15.5,"y":8274.2998,"size":23.5,"name":"PA","g":"Uninsured < 10%","t":2025,"t__uninsured":6.5}
+,
+        {"x":9.3999996,"y":6282.5,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2016,"t__uninsured":3.9000001}
+,
+        {"x":9.6000004,"y":6385.5,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2017,"t__uninsured":3.4000001}
+,
+        {"x":10.2,"y":6411.6001,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2018,"t__uninsured":4}
+,
+        {"x":11,"y":6508.7002,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2019,"t__uninsured":3.8}
+,
+        {"x":11.6,"y":6735.8999,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2020,"t__uninsured":4.1999998}
+,
+        {"x":12,"y":6909.7998,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2021,"t__uninsured":4.4000001}
+,
+        {"x":13.2,"y":6713.7998,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2022,"t__uninsured":4.8000002}
+,
+        {"x":13.7,"y":6572.5,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2023,"t__uninsured":4.4000001}
+,
+        {"x":14,"y":6504.7002,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2024,"t__uninsured":4.9000001}
+,
+        {"x":15.1,"y":6529.3999,"size":8.8999996,"name":"RI","g":"Uninsured < 10%","t":2025,"t__uninsured":5.1999998}
+,
+        {"x":20.799999,"y":8219.7998,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2016,"t__uninsured":17.6}
+,
+        {"x":21,"y":8473.0996,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2017,"t__uninsured":16.700001}
+,
+        {"x":20.4,"y":8584.4004,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2018,"t__uninsured":16.5}
+,
+        {"x":20.6,"y":8991.9004,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2019,"t__uninsured":16}
+,
+        {"x":19.9,"y":9630.5996,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2020,"t__uninsured":15.2}
+,
+        {"x":19.799999,"y":10242.9,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2021,"t__uninsured":14.1}
+,
+        {"x":19.9,"y":10131.4,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2022,"t__uninsured":13.9}
+,
+        {"x":19.4,"y":10120.4,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2023,"t__uninsured":12.7}
+,
+        {"x":19.200001,"y":10317.5,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2024,"t__uninsured":12.3}
+,
+        {"x":18.799999,"y":10824.2,"size":32.099998,"name":"SC","g":"Uninsured >= 10%","t":2025,"t__uninsured":11}
+,
+        {"x":21.9,"y":6648.7998,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2016,"t__uninsured":17.5}
+,
+        {"x":21,"y":6677.7998,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2017,"t__uninsured":17}
+,
+        {"x":20.700001,"y":7091.1001,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2018,"t__uninsured":16.299999}
+,
+        {"x":19.4,"y":7140.6001,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2019,"t__uninsured":15.6}
+,
+        {"x":18.700001,"y":7961.2998,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2020,"t__uninsured":14.6}
+,
+        {"x":17.6,"y":8566.7998,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2021,"t__uninsured":14.1}
+,
+        {"x":17,"y":8380.7002,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2022,"t__uninsured":13.3}
+,
+        {"x":16.200001,"y":8252,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2023,"t__uninsured":12.6}
+,
+        {"x":15.1,"y":8482.5,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2024,"t__uninsured":11.5}
+,
+        {"x":13.5,"y":8929.5,"size":42.799999,"name":"SD","g":"Uninsured >= 10%","t":2025,"t__uninsured":10}
+,
+        {"x":12.7,"y":8484.0996,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2016,"t__uninsured":15.2}
+,
+        {"x":13.6,"y":8817.7002,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2017,"t__uninsured":14.6}
+,
+        {"x":14,"y":9027.9004,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2018,"t__uninsured":14.2}
+,
+        {"x":14.6,"y":9553.7998,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2019,"t__uninsured":13.6}
+,
+        {"x":15.5,"y":10373.2,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2020,"t__uninsured":13.3}
+,
+        {"x":15.8,"y":10836.8,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2021,"t__uninsured":12.8}
+,
+        {"x":16.4,"y":10838.5,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2022,"t__uninsured":12.8}
+,
+        {"x":17.4,"y":10736,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2023,"t__uninsured":11.9}
+,
+        {"x":17.799999,"y":11043.4,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2024,"t__uninsured":11.9}
+,
+        {"x":18.9,"y":11635.8,"size":33.799999,"name":"TN","g":"Uninsured >= 10%","t":2025,"t__uninsured":11.1}
+,
+        {"x":22.799999,"y":6379.5,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2016,"t__uninsured":26.700001}
+,
+        {"x":22.5,"y":6366.8999,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2017,"t__uninsured":26.299999}
+,
+        {"x":21.9,"y":6712.7002,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2018,"t__uninsured":25.700001}
+,
+        {"x":21.700001,"y":6760.6001,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2019,"t__uninsured":24.200001}
+,
+        {"x":21.1,"y":7624.6001,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2020,"t__uninsured":23.4}
+,
+        {"x":20.9,"y":7834.8999,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2021,"t__uninsured":22.9}
+,
+        {"x":19.700001,"y":7680.7998,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2022,"t__uninsured":21.700001}
+,
+        {"x":19.4,"y":7562.2002,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2023,"t__uninsured":21.200001}
+,
+        {"x":19.200001,"y":7874.7002,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2024,"t__uninsured":20.299999}
+,
+        {"x":18.4,"y":8233.0996,"size":16.299999,"name":"TX","g":"Uninsured >= 10%","t":2025,"t__uninsured":18.799999}
+,
+        {"x":5.4000001,"y":5982.5,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2016,"t__uninsured":14.3}
+,
+        {"x":5.5999999,"y":6052.6001,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2017,"t__uninsured":13.9}
+,
+        {"x":6.3000002,"y":5878,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2018,"t__uninsured":13.4}
+,
+        {"x":6.6999998,"y":6094.7998,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2019,"t__uninsured":12.6}
+,
+        {"x":7.3000002,"y":6605.5,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2020,"t__uninsured":12}
+,
+        {"x":7.1999998,"y":6595.1001,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2021,"t__uninsured":11.3}
+,
+        {"x":8,"y":6374.7998,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2022,"t__uninsured":11.2}
+,
+        {"x":8,"y":6144.8999,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2023,"t__uninsured":10.9}
+,
+        {"x":8.5,"y":6328.3999,"size":10.2,"name":"UT","g":"Uninsured >= 10%","t":2024,"t__uninsured":10.1}
+,
+        {"x":9.1999998,"y":6429,"size":10.2,"name":"UT","g":"Uninsured < 10%","t":2025,"t__uninsured":9.1999998}
+,
+        {"x":15.2,"y":4590.2998,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2016,"t__uninsured":2.7}
+,
+        {"x":14.5,"y":4833.6001,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2017,"t__uninsured":2.7}
+,
+        {"x":13.8,"y":5311.8999,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2018,"t__uninsured":3}
+,
+        {"x":13.9,"y":5544.7998,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2019,"t__uninsured":3.4000001}
+,
+        {"x":12.9,"y":6190.7998,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2020,"t__uninsured":4}
+,
+        {"x":12.7,"y":6492.1001,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2021,"t__uninsured":3.5}
+,
+        {"x":11.9,"y":6375.2002,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2022,"t__uninsured":3.9000001}
+,
+        {"x":11.2,"y":6343.1001,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2023,"t__uninsured":4.6999998}
+,
+        {"x":11.1,"y":6692.7002,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2024,"t__uninsured":4.5}
+,
+        {"x":10.2,"y":7141.8999,"size":64.900002,"name":"VT","g":"Uninsured < 10%","t":2025,"t__uninsured":4.9000001}
+,
+        {"x":13.6,"y":5321.5,"size":24.4,"name":"VA","g":"Uninsured >= 10%","t":2016,"t__uninsured":10.4}
+,
+        {"x":13.5,"y":5495.1001,"size":24.4,"name":"VA","g":"Uninsured >= 10%","t":2017,"t__uninsured":10.1}
+,
+        {"x":13,"y":5753.8999,"size":24.4,"name":"VA","g":"Uninsured < 10%","t":2018,"t__uninsured":9.5}
+,
+        {"x":13.3,"y":6180.3999,"size":24.4,"name":"VA","g":"Uninsured < 10%","t":2019,"t__uninsured":9}
+,
+        {"x":12.9,"y":6825.7002,"size":24.4,"name":"VA","g":"Uninsured < 10%","t":2020,"t__uninsured":8.8999996}
+,
+        {"x":13.1,"y":7081.2002,"size":24.4,"name":"VA","g":"Uninsured < 10%","t":2021,"t__uninsured":8.3999996}
+,
+        {"x":13.1,"y":6977.7002,"size":24.4,"name":"VA","g":"Uninsured < 10%","t":2022,"t__uninsured":8.6000004}
+,
+        {"x":12.5,"y":7066.3999,"size":24.4,"name":"VA","g":"Uninsured < 10%","t":2023,"t__uninsured":7.9000001}
+,
+        {"x":12.8,"y":7297.1001,"size":24.4,"name":"VA","g":"Uninsured < 10%","t":2024,"t__uninsured":8}
+,
+        {"x":12.7,"y":7738.5,"size":24.4,"name":"VA","g":"Uninsured < 10%","t":2025,"t__uninsured":7.5}
+,
+        {"x":8.5,"y":4503.2002,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2016,"t__uninsured":9}
+,
+        {"x":8.8999996,"y":4620.2998,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2017,"t__uninsured":9.1999998}
+,
+        {"x":9.3999996,"y":4786.1001,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2018,"t__uninsured":9.1000004}
+,
+        {"x":10.1,"y":5016.3999,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2019,"t__uninsured":8.8000002}
+,
+        {"x":10.4,"y":5798.8999,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2020,"t__uninsured":8.1000004}
+,
+        {"x":10.5,"y":6102.8999,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2021,"t__uninsured":8.3000002}
+,
+        {"x":11.1,"y":6036.3999,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2022,"t__uninsured":8}
+,
+        {"x":11.3,"y":6097.3999,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2023,"t__uninsured":7.6999998}
+,
+        {"x":11.5,"y":6333.5,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2024,"t__uninsured":7.5999999}
+,
+        {"x":12.1,"y":6780.8999,"size":16.6,"name":"WA","g":"Uninsured < 10%","t":2025,"t__uninsured":7.1999998}
+,
+        {"x":36.700001,"y":9257.9004,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2016,"t__uninsured":8.3999996}
+,
+        {"x":34.599998,"y":9586.5,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2017,"t__uninsured":8.3000002}
+,
+        {"x":33,"y":9892.5,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2018,"t__uninsured":8.5}
+,
+        {"x":31,"y":10400.9,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2019,"t__uninsured":8.6999998}
+,
+        {"x":29.5,"y":11468.6,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2020,"t__uninsured":8.3000002}
+,
+        {"x":27.6,"y":12368.4,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2021,"t__uninsured":7.6999998}
+,
+        {"x":25.9,"y":12089.3,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2022,"t__uninsured":8}
+,
+        {"x":24.1,"y":12215.8,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2023,"t__uninsured":8.1000004}
+,
+        {"x":22.700001,"y":12553.9,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2024,"t__uninsured":7.6999998}
+,
+        {"x":19.6,"y":13324.1,"size":55.400002,"name":"WV","g":"Uninsured < 10%","t":2025,"t__uninsured":7.4000001}
+,
+        {"x":13.8,"y":5561.7998,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2016,"t__uninsured":7.3000002}
+,
+        {"x":13.6,"y":5613.7998,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2017,"t__uninsured":6.6999998}
+,
+        {"x":13.4,"y":6012.1001,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2018,"t__uninsured":6.9000001}
+,
+        {"x":13.8,"y":6180.3999,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2019,"t__uninsured":6.9000001}
+,
+        {"x":13.1,"y":6533.7002,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2020,"t__uninsured":6.8000002}
+,
+        {"x":13,"y":6985.7002,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2021,"t__uninsured":6.8000002}
+,
+        {"x":13.5,"y":6971.5,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2022,"t__uninsured":6.8000002}
+,
+        {"x":13.3,"y":7016.7002,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2023,"t__uninsured":6.1999998}
+,
+        {"x":13,"y":7082.3999,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2024,"t__uninsured":6.5}
+,
+        {"x":12.8,"y":7447.3999,"size":32.900002,"name":"WI","g":"Uninsured < 10%","t":2025,"t__uninsured":6.3000002}
+,
+        {"x":18.799999,"y":7761,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2016,"t__uninsured":20.700001}
+,
+        {"x":17.6,"y":7976.7998,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2017,"t__uninsured":20}
+,
+        {"x":17.4,"y":8091.7002,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2018,"t__uninsured":19.6}
+,
+        {"x":16.299999,"y":8070.1001,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2019,"t__uninsured":18.799999}
+,
+        {"x":15.7,"y":8862.5,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2020,"t__uninsured":18.4}
+,
+        {"x":15.4,"y":9095.5,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2021,"t__uninsured":17.1}
+,
+        {"x":14.2,"y":8955,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2022,"t__uninsured":16.4}
+,
+        {"x":13.6,"y":8704.5,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2023,"t__uninsured":15.7}
+,
+        {"x":13.2,"y":8747.2998,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2024,"t__uninsured":15.3}
+,
+        {"x":12,"y":8978.2002,"size":38,"name":"WY","g":"Uninsured >= 10%","t":2025,"t__uninsured":14.1}
+]
+};
+</script>
+<script>
+/* googlechart_engine.js -- Google Charts (Visualization API) renderer for the
+   `googlechart` Stata package.  Loads the Google Charts CDN, applies a
+   Texas 2036 brand theme, and dispatches per type() to a small per-chart
+   renderer.
+
+   Designed as a SIBLING (not a replacement) for sparkta2.  Trade-off
+   vs sparkta2:
+     - sparkta2 ships d3 + topojson inline; works offline.
+     - googlechart uses Google Charts loader.js + per-package fetches
+       from gstatic.com; CDN-only by Google ToS, requires network at view.
+       In return: native filter controls (CategoryFilter, ChartRangeFilter,
+       NumberRangeFilter), 14 chart types, polished default tooltips.
+
+   The engine reads `window.__GOOGLECHART__` (emitted by
+   googlechart_writehtml.ado) and renders into #chart.
+
+   Supported types (v0.1):
+     column, bar, line, area, combo, pie, donut, scatter, bubble, geo,
+     timeline, table, histogram, divbar (Pew-style via sign-flip).
+
+   Cross-cutting features (apply to every type that supports them):
+     - tx2036style:    Montserrat + brand palette baked into chart options
+     - download menu:  PNG (getImageURI), SVG (serialize), CSV
+                       (dataTableToCsv), View data table toggle
+     - datatable:      collapsible HTML table beneath the chart
+     - animate:        IntersectionObserver gates chart.draw() until the
+                       container scrolls into view (deferred-draw pattern,
+                       not d3-transition pattern)
+     - downloadpos:    side (default) | below | none
+     - filters():      builds a google.visualization.Dashboard with
+                       CategoryFilter / NumberRangeFilter per filter var
+*/
+(function () {
+  "use strict";
+
+  // ---- Brand palettes ------------------------------------------------------
+  // tx2036 = Texas 2036 brand cycle.  Sequential / diverging palettes
+  // mirror sparkta2's scheme names so existing users find them familiar.
+  var PALETTES = {
+    tx2036:   ["#1B2D55","#D44500","#2B6CB0","#6C7A8D","#7A9D54","#A67B36","#9C5BA5","#3F8A8C","#C0392B","#F1A208"],
+    blues:    ["#deebf7","#9ecae1","#3182bd","#08519c","#08306b","#2171b5","#4292c6","#6baed6","#9ecae1","#c6dbef"],
+    reds:     ["#fee5d9","#fcbba1","#fc9272","#fb6a4a","#ef3b2c","#cb181d","#a50f15","#67000d"],
+    greens:   ["#e5f5e0","#c7e9c0","#a1d99b","#74c476","#41ab5d","#238b45","#006d2c","#00441b"],
+    oranges:  ["#feedde","#fdd0a2","#fdae6b","#fd8d3c","#f16913","#d94801","#a63603","#7f2704"],
+    purples:  ["#efedf5","#dadaeb","#bcbddc","#9e9ac8","#807dba","#6a51a3","#54278f","#3f007d"],
+    rdbu:     ["#b2182b","#d6604d","#f4a582","#fddbc7","#f7f7f7","#d1e5f0","#92c5de","#4393c3","#2166ac"],
+    rdylgn:   ["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"],
+    viridis:  ["#440154","#482878","#3e4989","#31688e","#26828e","#1f9e89","#35b779","#6ece58","#b5de2b","#fde725"]
+  };
+
+  // ---- Helpers -------------------------------------------------------------
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function fmt(v) {
+    if (v == null || !isFinite(+v)) return "";
+    var n = +v;
+    if (Math.abs(n) >= 1000) return n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    if (Math.abs(n) >= 1)    return n.toLocaleString(undefined, { maximumFractionDigits: 1 });
+    return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  }
+  function uniqueOrdered(items) {
+    var seen = {}; var out = [];
+    for (var i = 0; i < items.length; i++) {
+      var k = String(items[i]);
+      if (!seen[k]) { seen[k] = 1; out.push(items[i]); }
+    }
+    return out;
+  }
+  function paletteFor(meta) {
+    var name = (meta.scheme || (meta.tx2036style ? "tx2036" : "blues")).toLowerCase();
+    return PALETTES[name] || PALETTES.tx2036;
+  }
+  function brandOptions(meta) {
+    // Common chart options used as the base; per-type renderers spread their
+    // own overrides on top.
+    var fontName = meta.tx2036style ? "Montserrat" : "Roboto, Arial, sans-serif";
+    return {
+      colors: paletteFor(meta),
+      fontName: fontName,
+      backgroundColor: "transparent",
+      titleTextStyle: { color: "#1B2D55", bold: true, fontName: fontName, fontSize: 16 },
+      legend: { position: "bottom", alignment: "center",
+                textStyle: { color: "#6C7A8D", fontName: fontName, fontSize: 11 } },
+      tooltip: { textStyle: { fontName: fontName, fontSize: 12 } },
+      hAxis: { textStyle: { color: "#6C7A8D", fontName: fontName, fontSize: 11 },
+               titleTextStyle: { color: "#1B2D55", fontName: fontName, fontSize: 12, italic: false },
+               gridlines: { color: "#E4E7EB", count: -1 } },
+      vAxis: { textStyle: { color: "#6C7A8D", fontName: fontName, fontSize: 11 },
+               titleTextStyle: { color: "#1B2D55", fontName: fontName, fontSize: 12, italic: false },
+               gridlines: { color: "#E4E7EB", count: -1 } },
+      chartArea: { left: 80, top: 50, width: "75%", height: "70%" }
+    };
+  }
+
+  // Deep merge for option objects (engine defaults <- user title/axes etc.)
+  function deepMerge(a, b) {
+    if (b == null) return a;
+    if (typeof a !== "object" || Array.isArray(a)) return b;
+    var out = {}; var k;
+    for (k in a) out[k] = a[k];
+    for (k in b) {
+      if (b[k] && typeof b[k] === "object" && !Array.isArray(b[k])) {
+        out[k] = deepMerge(a[k] || {}, b[k]);
+      } else {
+        out[k] = b[k];
+      }
+    }
+    return out;
+  }
+
+  // Reshape long form [{name, value, series}, ...] to wide rows
+  // [[<x>, <s1>, <s2>, ...], ...] keyed by name across series order.
+  function longToWide(rows, xKey, valueKey, seriesKey) {
+    var xs = uniqueOrdered(rows.map(function (r) { return r[xKey]; }));
+    var series = seriesKey
+      ? uniqueOrdered(rows.map(function (r) { return r[seriesKey]; }))
+      : [valueKey];
+    var byX = {};
+    xs.forEach(function (x) {
+      byX[x] = {};
+      series.forEach(function (s) { byX[x][s] = null; });
+    });
+    rows.forEach(function (r) {
+      var s = seriesKey ? r[seriesKey] : valueKey;
+      var v = r[valueKey];
+      byX[r[xKey]][s] = (v === "" || v == null) ? null : +v;
+    });
+    var out = xs.map(function (x) {
+      var row = [x];
+      series.forEach(function (s) { row.push(byX[x][s]); });
+      return row;
+    });
+    return { xs: xs, series: series, rows: out };
+  }
+
+  // ---- Module load ---------------------------------------------------------
+  function packagesNeeded(type, hasFilters, hasTime) {
+    var base = ["corechart"];
+    if (type === "table")     return hasFilters ? ["table","controls"] : ["table"];
+    if (type === "geo")       return ["geochart"];
+    if (type === "timeline")  base = ["timeline"];
+    if (type === "sankey")    base = ["sankey"];
+    if (type === "treemap")   base = ["treemap"];
+    if (type === "calendar")  base = ["calendar"];
+    if (type === "gauge")     base = ["gauge"];
+    // Bubble with a time dimension also drives a Dashboard + ControlWrapper
+    // for the Play button, so it needs controls too.
+    if (hasFilters || (type === "bubble" && hasTime)) base.push("controls");
+    return base;
+  }
+
+  function bootstrap(cfg) {
+    var meta = cfg.meta || {};
+    var hasFilters = !!(cfg.filters && cfg.filters.length);
+    var hasTime = !!(meta.time && cfg.data && cfg.data.some(function (r) { return r.t != null; }));
+    var pkgs = packagesNeeded((meta.type || "column").toLowerCase(), hasFilters, hasTime);
+    if (typeof google === "undefined" || !google.charts) {
+      // Loader hasn't arrived yet; retry on next frame
+      setTimeout(function () { bootstrap(cfg); }, 50);
+      return;
+    }
+    google.charts.load("current", { packages: pkgs });
+    google.charts.setOnLoadCallback(function () { setup(cfg); });
+  }
+
+  // ---- Top-level setup -----------------------------------------------------
+  function setup(cfg) {
+    var meta = cfg.meta || {};
+    var data = cfg.data || [];
+    var filterDefs = cfg.filters || [];
+    var tipvars = cfg.tooltipvars || [];
+
+    // Build controls panel (Export + Filters), regardless of chart type.
+    buildControlsPanel(meta, data, tipvars, filterDefs);
+
+    // The actual chart instance + DataTable are constructed inside the
+    // type-specific renderer.  Each renderer returns { chart, dataTable,
+    // dashboard?, redraw } so the export menu can call back into them.
+    var ctx = renderByType(meta, data, filterDefs);
+    if (!ctx) return;
+
+    // Hook the export-menu actions up to the just-built chart.
+    wireExportMenu(meta, ctx, data, tipvars);
+
+    // IntersectionObserver-gated initial draw.  Sparkta2 fades in elements
+    // that already exist; Google Charts has to defer the .draw() itself.
+    setupAnimateOnView(meta, ctx);
+  }
+
+  // ---- Dispatch by chart type ---------------------------------------------
+  function renderByType(meta, data, filterDefs) {
+    var type = (meta.type || "column").toLowerCase();
+    switch (type) {
+      case "column":     return renderXYChart(meta, data, "ColumnChart", filterDefs);
+      case "bar":        return renderXYChart(meta, data, "BarChart",    filterDefs);
+      case "line":       return renderXYChart(meta, data, "LineChart",   filterDefs);
+      case "area":       return renderXYChart(meta, data, "AreaChart",   filterDefs);
+      case "combo":      return renderCombo(meta, data, filterDefs);
+      case "scatter":    return renderScatter(meta, data);
+      case "pie":        return renderPie(meta, data, false);
+      case "donut":      return renderPie(meta, data, true);
+      case "bubble":     return renderBubble(meta, data);
+      case "geo":        return renderGeo(meta, data);
+      case "timeline":   return renderTimeline(meta, data);
+      case "table":      return renderTable(meta, data, filterDefs);
+      case "histogram":  return renderHistogram(meta, data);
+      case "divbar":     return renderDivbar(meta, data);
+      default:
+        renderError("type(" + type + ") not recognised by googlechart_engine.js");
+        return null;
+    }
+  }
+
+  function renderError(msg) {
+    var el = document.getElementById("chart");
+    if (el) el.innerHTML = "<div style='padding:24px;color:#b34a3a;font:14px sans-serif'>"
+      + esc(msg) + "</div>";
+  }
+
+  // ============================================================
+  //                       XY-AXIS CHARTS
+  //   column / bar / line / area / scatter share enough plumbing
+  //   that one function handles all five with class-name swap.
+  // ============================================================
+  function renderXYChart(meta, data, className, filterDefs) {
+    var W = +meta.width  || 980;
+    var H = +meta.height || 560;
+    var xKey  = "name";      // category / time
+    var yKey  = "value";     // numeric value
+    var sKey  = meta.over ? "g" : null;  // multi-series via Stata `over()`
+    var wide  = longToWide(data, xKey, yKey, sKey);
+
+    // Build DataTable from the wide reshape.
+    var header = [meta.namelabel || meta.name || "x"];
+    if (sKey) wide.series.forEach(function (s) { header.push(String(s)); });
+    else      header.push(meta.xvar || meta.valuelabel || "value");
+
+    var dt = new google.visualization.DataTable();
+    // Column 0 type: detect if all xs are numbers (number axis) else string.
+    var allNumeric = wide.xs.every(function (x) { return x !== "" && isFinite(+x); });
+    dt.addColumn(allNumeric ? "number" : "string", header[0]);
+    for (var i = 1; i < header.length; i++) dt.addColumn("number", header[i]);
+    wide.rows.forEach(function (row) {
+      var clean = row.slice();
+      if (allNumeric) clean[0] = +clean[0];
+      dt.addRow(clean);
+    });
+
+    // Direct-labels: for ColumnChart / BarChart, wrap in a DataView that
+    // appends a stringify'd annotation column after each numeric series.
+    // Classic corechart only -- material charts ignore the role.
+    var drawSource = dt;
+    if (meta.directlabels && (className === "ColumnChart" || className === "BarChart")) {
+      var ncols = dt.getNumberOfColumns();
+      var viewCols = [0];
+      for (var ci = 1; ci < ncols; ci++) {
+        viewCols.push(ci);
+        viewCols.push({ calc: "stringify", sourceColumn: ci, type: "string", role: "annotation" });
+      }
+      var dv = new google.visualization.DataView(dt);
+      dv.setColumns(viewCols);
+      drawSource = dv;
+    }
+
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width: W, height: H,
+      hAxis: {
+        title: meta.xlabel || "",
+        slantedText: (className === "ColumnChart" || className === "BarChart") && !allNumeric,
+        slantedTextAngle: 30
+      },
+      vAxis: {
+        title: meta.ylabel || "",
+        baseline: 0
+      },
+      legend: { position: sKey ? "bottom" : "none" },
+      isStacked: meta.stacked ? (meta.normalize ? "percent" : true) : false,
+      animation: { startup: !!meta.animate, duration: 900, easing: "out" },
+      // Make line and area charts readable -- thicker stroke + visible point markers
+      // (Google's defaults are 2px stroke and zero markers, which can vanish at small sizes).
+      lineWidth: (className === "LineChart" || className === "AreaChart") ? 3 : 2,
+      pointSize: (className === "LineChart" || className === "AreaChart") ? 5
+                 : (className === "ScatterChart" ? 6 : 0),
+      areaOpacity: className === "AreaChart" ? 0.35 : undefined,
+      annotations: {
+        // alwaysOutside places the label outside the bar end.  The
+        // `stem' is the short line Google draws from the bar to the
+        // label; on a horizontal bar it renders as a leading dash that
+        // makes positive values read as negative.  Hide the stem by
+        // colouring it transparent but keep its length so the label
+        // stays offset from the bar end.
+        alwaysOutside: true,
+        textStyle: {
+          fontName: meta.tx2036style ? "Montserrat" : undefined,
+          fontSize: 14, bold: true, color: "#1B2D55", auraColor: "none"
+        },
+        stem: { color: "transparent", length: 12 },
+        highContrast: false,
+        style: "point"
+      }
+    });
+    // Bar charts read better with the title on hAxis (data dimension);
+    // ColumnChart reads better with the title on vAxis.
+    if (className === "BarChart") {
+      opts.hAxis.title = meta.ylabel || opts.hAxis.title;
+      opts.vAxis.title = meta.xlabel || opts.vAxis.title;
+    }
+
+    var container = document.getElementById("chart");
+    var chart = new google.visualization[className](container);
+
+    // If filters are requested, wire a Dashboard so the chart redraws
+    // whenever filter state changes.
+    var dashboard = null, chartWrapper = null;
+    if (filterDefs && filterDefs.length) {
+      dashboard = buildDashboardWithFilters(meta, dt, filterDefs, className, opts);
+      // dashboard.draw is the entry point in dashboard mode; the chart
+      // instance is owned by the wrapper.
+      return {
+        type: "dashboard", className: className, dashboard: dashboard, dataTable: dt, opts: opts,
+        draw: function () { dashboard.draw(dt); }
+      };
+    }
+    return {
+      type: "chart", className: className, chart: chart, dataTable: dt, opts: opts,
+      draw: function () { chart.draw(drawSource, opts); }
+    };
+  }
+
+  // ============================================================
+  //                          COMBO CHART
+  //   Same as XY but with per-series chartType overrides via
+  //   meta.combo_types ("line|bars|area").
+  // ============================================================
+  function renderCombo(meta, data, filterDefs) {
+    var W = +meta.width  || 980;
+    var H = +meta.height || 560;
+    var wide = longToWide(data, "name", "value", meta.over ? "g" : null);
+    var dt = new google.visualization.DataTable();
+    dt.addColumn("string", meta.namelabel || meta.name || "x");
+    wide.series.forEach(function (s) { dt.addColumn("number", String(s)); });
+    wide.rows.forEach(function (r) { dt.addRow(r); });
+
+    // combo_types pipe-list maps to series:{0:{type},1:{type},...}
+    var defaultType = (meta.combo_default || "bars").toLowerCase();
+    var perSeries = (meta.combo_types || "").split("|").filter(Boolean);
+    var seriesOpts = {};
+    wide.series.forEach(function (s, i) {
+      var t = perSeries[i] || defaultType;
+      // For line-type combo series, default to thicker stroke + visible
+      // point markers so the line stands apart from the bars and isn't
+      // lost against the chart background.
+      var sOpt = { type: t };
+      if (t === "line" || t === "area") {
+        sOpt.lineWidth = 3;
+        sOpt.pointSize = 6;
+      }
+      seriesOpts[i] = sOpt;
+    });
+
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width: W, height: H,
+      seriesType: defaultType,
+      series: seriesOpts,
+      hAxis: { title: meta.xlabel || "", slantedText: true, slantedTextAngle: 30 },
+      vAxis: { title: meta.ylabel || "" },
+      legend: { position: "bottom" },
+      animation: { startup: !!meta.animate, duration: 900, easing: "out" }
+    });
+    var container = document.getElementById("chart");
+    var chart = new google.visualization.ComboChart(container);
+    return {
+      type: "chart", className: "ComboChart", chart: chart, dataTable: dt, opts: opts,
+      draw: function () { chart.draw(dt, opts); }
+    };
+  }
+
+  // ============================================================
+  //                       PIE / DONUT
+  // ============================================================
+  function renderPie(meta, data, isDonut) {
+    var dt = new google.visualization.DataTable();
+    dt.addColumn("string", meta.namelabel || meta.name || "slice");
+    dt.addColumn("number", meta.valuelabel || "value");
+    data.forEach(function (r) {
+      dt.addRow([String(r.name), r.value == null ? null : +r.value]);
+    });
+    // PieChart does NOT honor animation.startup (Google has never
+    // shipped it for pie -- confirmed by their docs + issue #330).
+    // Instead, fade the container in via CSS once the chart fires
+    // 'ready', which gives a startup-animation feel without the
+    // unsupported option.
+    // Pie / donut layout: legend sits BELOW by default so the pie itself
+    // is centred in a square-ish frame.  The previous "right" default
+    // reserved a wide legend column that pushed the pie left and left a
+    // visible empty band on the right of the card.  `chartArea' is
+    // expanded so the pie nearly fills the SVG.
+    var legendPos = meta.labelwrap === "outside" ? "labeled"
+                   : (meta.legendpos || "bottom");
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width: +meta.width || 640, height: +meta.height || 520,
+      pieHole: isDonut ? (+meta.innerradius || 0.45) : 0,
+      legend: { position: legendPos, alignment: "center",
+                textStyle: { fontSize: 11 } },
+      chartArea: { left: "6%", right: "6%", top: "12%",
+                   width: "88%", height: legendPos === "bottom" ? "70%" : "78%" },
+      pieSliceText: meta.directlabels ? "percentage" : "value",
+      pieSliceTextStyle: { fontSize: 12, color: "#FFFFFF" },
+      sliceVisibilityThreshold: 0.005
+    });
+    var container = document.getElementById("chart");
+    var chart = new google.visualization.PieChart(container);
+    if (meta.animate) {
+      // Pie / donut don't honor Google's animation.startup (issue #330);
+      // substitute a fade + scale-up pop on the chart's 'ready' event.
+      // 1100 ms is long enough to be perceptible on first view but
+      // short enough to feel snappy.
+      container.style.opacity = "0";
+      container.style.transform = "scale(0.88)";
+      container.style.transformOrigin = "center center";
+      container.style.transition = "opacity 1100ms ease-out, transform 1100ms cubic-bezier(.22,1.1,.36,1)";
+      google.visualization.events.addListener(chart, "ready", function () {
+        // setTimeout instead of requestAnimationFrame because rAF can
+        // be throttled by the browser when the iframe document isn't
+        // fully visible (sparkta2_dashboard embeds these in iframes).
+        setTimeout(function () {
+          container.style.opacity = "1";
+          container.style.transform = "scale(1)";
+        }, 16);
+      });
+    }
+    return {
+      type: "chart", className: "PieChart", chart: chart, dataTable: dt, opts: opts,
+      draw: function () { chart.draw(dt, opts); }
+    };
+  }
+
+  // ============================================================
+  //                       SCATTER CHART
+  //   Inputs in long form: { x, y, g (optional series) }
+  //   Each row is one point.  When `g' (series) is present, reshape so
+  //   each series gets its own numeric Y column.
+  // ============================================================
+  function renderScatter(meta, data) {
+    var hasSeries = data.length > 0 && data.some(function (r) { return r.g != null; });
+    var dt = new google.visualization.DataTable();
+    dt.addColumn("number", meta.xlabel || "x");
+    if (hasSeries) {
+      var seriesList = uniqueOrdered(data.map(function (r) { return String(r.g || ""); }));
+      seriesList.forEach(function (s) { dt.addColumn("number", s); });
+      data.forEach(function (r) {
+        var row = [r.x == null ? null : +r.x];
+        seriesList.forEach(function (s) {
+          row.push(String(r.g || "") === s ? (r.y == null ? null : +r.y) : null);
+        });
+        dt.addRow(row);
+      });
+    } else {
+      dt.addColumn("number", meta.ylabel || "y");
+      data.forEach(function (r) {
+        dt.addRow([r.x == null ? null : +r.x, r.y == null ? null : +r.y]);
+      });
+    }
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width:  +meta.width  || 980,
+      height: +meta.height || 644,
+      hAxis: { title: meta.xlabel || "" },
+      vAxis: { title: meta.ylabel || "" },
+      legend: { position: hasSeries ? "bottom" : "none" },
+      pointSize: 8,
+      animation: { startup: !!meta.animate, duration: 900, easing: "out" }
+    });
+    var container = document.getElementById("chart");
+    var chart = new google.visualization.ScatterChart(container);
+    return {
+      type: "chart", className: "ScatterChart", chart: chart, dataTable: dt, opts: opts,
+      draw: function () { chart.draw(dt, opts); }
+    };
+  }
+
+  // ============================================================
+  //                       BUBBLE CHART
+  //   Inputs in long form: { name, x, y, g (group/color), size }
+  // ============================================================
+  function renderBubble(meta, data) {
+    var dt = new google.visualization.DataTable();
+    dt.addColumn("string", "ID");
+    dt.addColumn("number", meta.xlabel || "x");
+    dt.addColumn("number", meta.ylabel || "y");
+    // Column 3 type controls how Google Charts colours the bubbles:
+    //   string -> categorical legend colours
+    //   number -> continuous colorAxis gradient
+    var groupIsNumeric = data.length > 0 && data.every(function (r) {
+      return r.g == null || r.g === "" || isFinite(+r.g);
+    });
+    if (groupIsNumeric) dt.addColumn("number", meta.over || "color");
+    else                dt.addColumn("string", meta.over || "group");
+    dt.addColumn("number", "size");
+    // Time column lives in the DataTable when meta.time is set, but is
+    // HIDDEN from the chart via a DataView so BubbleChart doesn't try to
+    // use it as series/color/size.
+    var hasTime = !!meta.time && data.some(function (r) { return r.t != null; });
+    if (hasTime) dt.addColumn("number", meta.time || "time");
+    data.forEach(function (r) {
+      var row = [
+        String(r.name || ""),
+        r.x == null ? null : +r.x,
+        r.y == null ? null : +r.y,
+        groupIsNumeric ? (r.g == null ? null : +r.g) : String(r.g || ""),
+        r.size == null ? null : +r.size
+      ];
+      if (hasTime) row.push(r.t == null ? null : +r.t);
+      dt.addRow(row);
+    });
+
+    // Fixed axis windows so motion is interpretable across time slices.
+    var xs = data.map(function (r) { return +r.x; }).filter(isFinite);
+    var ys = data.map(function (r) { return +r.y; }).filter(isFinite);
+    function padded(arr) {
+      var lo = Math.min.apply(null, arr), hi = Math.max.apply(null, arr);
+      var pad = (hi - lo) * 0.08 || 1;
+      return { min: lo - pad, max: hi + pad };
+    }
+    var xw = xs.length ? padded(xs) : null;
+    var yw = ys.length ? padded(ys) : null;
+
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width: +meta.width || 980, height: +meta.height || 560,
+      hAxis: { title: meta.xlabel || "", viewWindow: xw },
+      vAxis: { title: meta.ylabel || "", viewWindow: yw },
+      bubble: { textStyle: { auraColor: "transparent",
+                              color: "#1B2D55", fontName: meta.tx2036style ? "Montserrat" : "sans-serif",
+                              fontSize: 10 },
+                opacity: 0.78, stroke: "#1B2D55" },
+      sizeAxis: { minSize: 3, maxSize: 36 },
+      legend: { position: "right" }
+    });
+    // BubbleChart in plain (non-dashboard) mode does support
+    // `animation.startup`, but inside a Dashboard / ChartWrapper the
+    // same option throws "Cannot read properties of undefined (reading
+    // 'Do')" on draw.  Apply animation only outside the dashboard path.
+    if (!hasTime) {
+      opts.animation = { startup: !!meta.animate, duration: 900, easing: "out" };
+    }
+    var container = document.getElementById("chart");
+
+    if (hasTime) {
+      // Build a Dashboard with a one-thumb NumberRangeFilter as the year
+      // slider + a Play button that advances the filter through the
+      // distinct time values to animate motion across time.
+      var times = uniqueOrdered(data.map(function (r) { return +r.t; }))
+                    .filter(isFinite).sort(function (a, b) { return a - b; });
+      var tMin = times[0], tMax = times[times.length - 1];
+
+      var dashRoot = document.getElementById("dashboard");
+      if (!dashRoot) {
+        dashRoot = document.createElement("div");
+        dashRoot.id = "dashboard";
+        container.parentNode.insertBefore(dashRoot, container);
+      }
+      var dash = new google.visualization.Dashboard(dashRoot);
+
+      var filterHost = document.getElementById("gc-filters");
+      if (!filterHost) {
+        filterHost = document.createElement("div");
+        filterHost.id = "gc-filters"; filterHost.className = "gc-filters";
+        container.parentNode.insertBefore(filterHost, container);
+      }
+      filterHost.innerHTML = "";
+      var slot = document.createElement("div");
+      slot.id = "gc-filter-time";
+      // The NumberRangeFilter renders its own label from filterColumnLabel, so
+      // the wrapper does not add a second <label> here: doing so printed the
+      // time variable's name twice above the slider.
+      filterHost.appendChild(slot);
+      var playBtn = document.createElement("button");
+      playBtn.id = "gc-play"; playBtn.textContent = "▶ Play";
+      playBtn.className = "gc-play";
+      filterHost.appendChild(playBtn);
+
+      var tFilter = new google.visualization.ControlWrapper({
+        controlType: "NumberRangeFilter",
+        containerId: slot.id,
+        options: {
+          filterColumnLabel: meta.time || "time",
+          ui: { format: { pattern: "####" }, step: 1, labelStacking: "vertical" }
+        },
+        state: { lowValue: tMin, highValue: tMin }
+      });
+      var hideTimeCol = dt.getNumberOfColumns() - 1;
+      var visibleCols = [];
+      for (var ci = 0; ci < hideTimeCol; ci++) visibleCols.push(ci);
+      var chartWrapper = new google.visualization.ChartWrapper({
+        chartType: "BubbleChart",
+        containerId: "chart",
+        options: opts,
+        view: { columns: visibleCols }
+      });
+      dash.bind(tFilter, chartWrapper);
+
+      var playing = false, iv = null;
+      playBtn.onclick = function () {
+        if (playing) {
+          clearInterval(iv); playing = false; playBtn.textContent = "▶ Play"; return;
+        }
+        playing = true; playBtn.textContent = "⏸ Pause";
+        var idx = times.indexOf(+tFilter.getState().lowValue);
+        if (idx < 0) idx = 0;
+        iv = setInterval(function () {
+          idx = (idx + 1) % times.length;
+          tFilter.setState({ lowValue: times[idx], highValue: times[idx] });
+          tFilter.draw();
+          if (idx === times.length - 1) {
+            clearInterval(iv); playing = false; playBtn.textContent = "▶ Play";
+          }
+        }, 900);
+      };
+
+      return {
+        type: "dashboard", className: "BubbleChart", dashboard: dash, dataTable: dt, opts: opts,
+        draw: function () { dash.draw(dt); }
+      };
+    }
+
+    var chart = new google.visualization.BubbleChart(container);
+    return {
+      type: "chart", className: "BubbleChart", chart: chart, dataTable: dt, opts: opts,
+      draw: function () { chart.draw(dt, opts); }
+    };
+  }
+
+  // ============================================================
+  //                          GEO CHART
+  //   IMPORTANT: country and US state level only -- no county FIPS,
+  //   no school-district shapes, no custom GeoJSON.  For sub-state
+  //   Texas work, use sparkta2 instead.
+  // ============================================================
+  function renderGeo(meta, data) {
+    var dt = new google.visualization.DataTable();
+    dt.addColumn("string", "Region");
+    dt.addColumn("number", meta.valuelabel || meta.xvar || "value");
+
+    var region = (meta.geo_region || "world").toUpperCase();
+    // Resolution alias map -- people reach for 'us-states' but Google
+    // Charts spells it 'provinces' (the ISO 3166-2 spelling).  Translate.
+    var rawRes = (meta.geo_resolution || "countries").toLowerCase();
+    var resolution = rawRes;
+    if (rawRes === "us-states" || rawRes === "states") resolution = "provinces";
+    if (rawRes === "country" || rawRes === "world")    resolution = "countries";
+
+    data.forEach(function (r) {
+      var code = String(r.name == null ? "" : r.name).trim();
+      // If region is US + resolution is provinces, accept bare postal
+      // codes ('TX') and synthesize the ISO 3166-2 form ('US-TX').
+      if (region === "US" && resolution === "provinces"
+          && /^[A-Z]{2}$/.test(code.toUpperCase())) {
+        code = "US-" + code.toUpperCase();
+      }
+      dt.addRow([code, r.value == null ? null : +r.value]);
+    });
+
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width: +meta.width || 980, height: +meta.height || 560,
+      region: region === "WORLD" ? "world" : region,
+      resolution: resolution,
+      colorAxis: { colors: paletteFor(meta).slice(0, 5) },
+      datalessRegionColor: "#E4E7EB",
+      backgroundColor: "transparent"
+    });
+    var container = document.getElementById("chart");
+    var chart = new google.visualization.GeoChart(container);
+    return {
+      type: "chart", className: "GeoChart", chart: chart, dataTable: dt, opts: opts,
+      draw: function () { chart.draw(dt, opts); }
+    };
+  }
+
+  // ============================================================
+  //                          TIMELINE
+  //   Gantt-style swimlanes.  Long-form input: { name (row label),
+  //   g (bar label, optional), start (Date or year), end (Date or year) }.
+  //   The wrapper converts to Date objects here.
+  // ============================================================
+  function renderTimeline(meta, data) {
+    var dt = new google.visualization.DataTable();
+    dt.addColumn("string", "Row");
+    dt.addColumn("string", "Bar");
+    dt.addColumn("date",   "Start");
+    dt.addColumn("date",   "End");
+    data.forEach(function (r) {
+      var s = toDate(r.start); var e = toDate(r.end);
+      if (!s || !e) return;
+      dt.addRow([String(r.name || ""), String(r.g || r.name || ""), s, e]);
+    });
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width: +meta.width || 980, height: +meta.height || 560,
+      backgroundColor: "transparent",
+      timeline: { showRowLabels: true, colorByRowLabel: false,
+                  rowLabelStyle: { fontName: meta.tx2036style ? "Montserrat" : "sans-serif", fontSize: 12, color: "#1B2D55" },
+                  barLabelStyle: { fontName: meta.tx2036style ? "Montserrat" : "sans-serif", fontSize: 11 } }
+    });
+    var container = document.getElementById("chart");
+    var chart = new google.visualization.Timeline(container);
+    return {
+      type: "chart", className: "Timeline", chart: chart, dataTable: dt, opts: opts,
+      draw: function () { chart.draw(dt, opts); }
+    };
+  }
+  function toDate(v) {
+    if (v == null || v === "") return null;
+    if (v instanceof Date) return v;
+    // Allow plain year integers (treat as Jan 1 of that year).
+    if (/^-?\d+(\.\d+)?$/.test(String(v))) {
+      var n = +v;
+      if (n >= 1000 && n <= 9999) return new Date(n, 0, 1);
+      // Unix timestamp (seconds or ms)?
+      return new Date(n);
+    }
+    var d = new Date(String(v));
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  // ============================================================
+  //                           TABLE
+  //   Pure tabular view; no chart.  Inherits the dashboard +
+  //   filter pattern so users can build filterable spreadsheets.
+  // ============================================================
+  function renderTable(meta, data, filterDefs) {
+    // Build a wide DataTable from the row payload.  If `over` is set,
+    // pivot to wide; otherwise show every row's full record.
+    var cols = inferTableColumns(data);
+    var dt = new google.visualization.DataTable();
+    cols.forEach(function (c) { dt.addColumn(c.type, c.label); });
+    data.forEach(function (r) {
+      dt.addRow(cols.map(function (c) {
+        var v = r[c.key];
+        if (v == null || v === "") return null;
+        if (c.type === "number") return +v;
+        return String(v);
+      }));
+    });
+
+    // Wrap the chart container so we can attach a search overlay + a
+    // bordered card around the rendered table.  We only build the wrap
+    // when there are no dashboard filters -- the dashboard owns #chart
+    // directly via ChartWrapper(containerId:"chart") and wouldn't see
+    // the wrapper's interior tableHost.
+    var hasDashFilters = !!(filterDefs && filterDefs.length);
+    var container = document.getElementById("chart");
+    var wrap = null;
+    var tableHost = container;
+    var searchHost = null;
+    var countHost = null;
+    if (!hasDashFilters) {
+      container.innerHTML = "";
+      wrap = document.createElement("div");
+      wrap.className = "gc-table-wrap";
+      if (meta.table_search) {
+        searchHost = document.createElement("div");
+        searchHost.className = "gc-table-search";
+        var inp = document.createElement("input");
+        inp.type = "search";
+        inp.placeholder = "Search rows…";
+        inp.setAttribute("aria-label", "Search the table");
+        countHost = document.createElement("span");
+        countHost.className = "count";
+        countHost.textContent = data.length + " rows";
+        searchHost.appendChild(inp);
+        searchHost.appendChild(countHost);
+        wrap.appendChild(searchHost);
+      }
+      tableHost = document.createElement("div");
+      wrap.appendChild(tableHost);
+      container.appendChild(wrap);
+    }
+
+    var numericCols = [];
+    cols.forEach(function (c, i) { if (c.type === "number") numericCols.push(i); });
+
+    var opts = {
+      title: meta.title || "",
+      // Intentionally NOT setting `width' for tables -- Google's default
+      // is to fill the container, which then plays nicely with the
+      // per-cell min-widths + .gc-table-wrap overflow-x:auto.  When a
+      // fixed width IS set on a Table, Google's inner host carves a
+      // narrower scroll region that doesn't fill the card; the user
+      // sees an odd empty strip to the right of the rendered table.
+      height: +meta.height || 560,
+      page: data.length > 25 ? "enable" : "disable",
+      pageSize: meta.table_pagesize > 0 ? +meta.table_pagesize : 25,
+      sort: "enable",
+      allowHtml: true,
+      sortAscending: true,
+      cssClassNames: {
+        headerRow: "gc-table-head",
+        tableRow: "gc-table-row",
+        oddTableRow: "gc-table-row gc-table-row-odd",
+        selectedTableRow: "gc-table-row-sel",
+        hoverTableRow: "gc-table-row-over",
+        headerCell: "gc-table-cell-head",
+        tableCell: "gc-table-cell",
+        rowNumberCell: "gc-table-rownum"
+      }
+    };
+
+    // Right-align + tabular-num the numeric columns once the chart fires
+    // 'ready' -- Google Charts injects fresh <td>s on every redraw so we
+    // re-apply the class instead of relying on a CSS :nth-child rule.
+    function classifyNumericCells() {
+      if (!numericCols.length) return;
+      var tds = tableHost.querySelectorAll(".google-visualization-table-table tr td");
+      var ncols = cols.length;
+      tds.forEach(function (td, i) {
+        if (numericCols.indexOf(i % ncols) >= 0) td.classList.add("gc-num");
+      });
+    }
+
+    var chart = new google.visualization.Table(tableHost);
+    google.visualization.events.addListener(chart, "ready", classifyNumericCells);
+    google.visualization.events.addListener(chart, "sort",  function () { setTimeout(classifyNumericCells, 0); });
+    google.visualization.events.addListener(chart, "page",  function () { setTimeout(classifyNumericCells, 0); });
+
+    // Client-side search: filter the underlying DataView on each
+    // keystroke.  We rebuild a DataView with setRows() so pagination +
+    // sort still work on the filtered subset.
+    if (searchHost) {
+      var inputEl = searchHost.querySelector("input");
+      var allRows = [];
+      for (var i = 0; i < dt.getNumberOfRows(); i++) allRows.push(i);
+      var view = new google.visualization.DataView(dt);
+      view.setRows(allRows);
+      var debounce = null;
+      inputEl.addEventListener("input", function () {
+        clearTimeout(debounce);
+        debounce = setTimeout(function () {
+          var q = inputEl.value.trim().toLowerCase();
+          var matched = q === "" ? allRows.slice() : allRows.filter(function (rowIdx) {
+            for (var ci = 0; ci < cols.length; ci++) {
+              var v = dt.getValue(rowIdx, ci);
+              if (v != null && String(v).toLowerCase().indexOf(q) >= 0) return true;
+            }
+            return false;
+          });
+          view.setRows(matched);
+          countHost.textContent = matched.length + (matched.length === 1 ? " row" : " rows") +
+                                   (q ? " (filtered from " + allRows.length + ")" : "");
+          chart.draw(view, opts);
+        }, 120);
+      });
+      // First draw uses the view so the chart and the view stay coupled.
+      if (filterDefs && filterDefs.length) {
+        // Dashboard mode below owns the draw; the search overlay coexists
+        // with the dashboard's filters (search refines the view further).
+        var dashboard = buildDashboardWithFilters(meta, dt, filterDefs, "Table", opts);
+        return { type: "dashboard", className: "Table", dashboard: dashboard, dataTable: dt, opts: opts,
+                 draw: function () { dashboard.draw(dt); } };
+      }
+      return { type: "chart", className: "Table", chart: chart, dataTable: dt, opts: opts,
+               draw: function () { chart.draw(view, opts); } };
+    }
+
+    if (filterDefs && filterDefs.length) {
+      var dashboard2 = buildDashboardWithFilters(meta, dt, filterDefs, "Table", opts);
+      return { type: "dashboard", className: "Table", dashboard: dashboard2, dataTable: dt, opts: opts,
+               draw: function () { dashboard2.draw(dt); } };
+    }
+    return { type: "chart", className: "Table", chart: chart, dataTable: dt, opts: opts,
+             draw: function () { chart.draw(dt, opts); } };
+  }
+  function inferTableColumns(data) {
+    if (!data.length) return [];
+    // Union of keys across all rows -- the first row may have fewer keys
+    // than later rows when some fields are conditional in the Stata emit.
+    var keySet = {}, keys = [];
+    data.forEach(function (r) {
+      Object.keys(r).forEach(function (k) {
+        if (!keySet[k]) { keySet[k] = 1; keys.push(k); }
+      });
+    });
+    // Filter out the placeholder `_' field the Stata wrapper writes so
+    // type(table) rows have valid JSON when no varlist is supplied.
+    keys = keys.filter(function (k) { return k !== "_"; });
+    return keys.map(function (k) {
+      // Tooltip-prefixed columns get a cleaner label
+      var label = k;
+      if (k.indexOf("t__") === 0) label = k.slice(3);
+      // Sniff type from the first non-null observation
+      var isNum = true;
+      for (var i = 0; i < data.length; i++) {
+        var v = data[i][k];
+        if (v == null || v === "") continue;
+        if (!isFinite(+v) || /^[\-+]?\d+(\.\d+)?$/.test(String(v)) === false && typeof v !== "number") {
+          isNum = false; break;
+        }
+      }
+      return { key: k, label: label, type: isNum ? "number" : "string" };
+    });
+  }
+
+  // ============================================================
+  //                         HISTOGRAM
+  //   Pass raw observations.  For large n we pre-bin in Stata
+  //   (the wrapper toggles this), so the engine just renders.
+  // ============================================================
+  function renderHistogram(meta, data) {
+    var dt = new google.visualization.DataTable();
+    // If data has a `g` (group) we treat as a labeled multi-series histogram;
+    // otherwise a single-series flat histogram.
+    var hasGroup = data.length > 0 && data[0].g != null;
+    if (hasGroup) {
+      dt.addColumn("string", meta.over || "group");
+      dt.addColumn("number", meta.xvar || "value");
+      data.forEach(function (r) { dt.addRow([String(r.g || ""), +r.value]); });
+    } else {
+      dt.addColumn("string", "obs");
+      dt.addColumn("number", meta.xvar || "value");
+      data.forEach(function (r, i) { dt.addRow([String(r.name || i+1), +r.value]); });
+    }
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width: +meta.width || 980, height: +meta.height || 560,
+      legend: { position: hasGroup ? "bottom" : "none" },
+      histogram: { bucketSize: meta.bucketsize > 0 ? +meta.bucketsize : "auto" },
+      hAxis: { title: meta.xlabel || "" },
+      vAxis: { title: meta.ylabel || "Count" },
+      // Histogram IS in Google's animation table; startup grows bars
+      // from 0 to height.  1200 ms makes the rise perceptible without
+      // dragging.
+      animation: { startup: !!meta.animate, duration: 1200, easing: "out" }
+    });
+    var container = document.getElementById("chart");
+    var chart = new google.visualization.Histogram(container);
+    return { type: "chart", className: "Histogram", chart: chart, dataTable: dt, opts: opts,
+             draw: function () { chart.draw(dt, opts); } };
+  }
+
+  // ============================================================
+  //                          DIVBAR
+  //   Pew-style diverging stacked bar.  Google Charts has no
+  //   native diverging mode; we fake it with isStacked:true and
+  //   sign-flipped negative-side series.  Center level (e.g.
+  //   "Neutral") is split 50/50 across the midline via an
+  //   invisible "spacer" series.
+  // ============================================================
+  function renderDivbar(meta, data) {
+    var levels = (meta.levelorder || "").split("|").filter(Boolean);
+    if (!levels.length) {
+      // Fall back to first-seen order from the data
+      var seen = {}; levels = [];
+      data.forEach(function (r) {
+        var lv = r.lev; if (!seen[lv]) { seen[lv] = 1; levels.push(lv); }
+      });
+    }
+    var centerLevel = meta.centerlevel || (levels.length % 2 === 1 ? levels[Math.floor(levels.length/2)] : null);
+    // Partition levels into negative (left of center) and positive (right).
+    var negs = [], pos = [], hitCenter = false;
+    levels.forEach(function (lv) {
+      if (lv === centerLevel) { hitCenter = true; return; }
+      if (!hitCenter) negs.push(lv); else pos.push(lv);
+    });
+
+    // Reshape to wide: item x level -> share
+    var items = uniqueOrdered(data.map(function (r) { return r.name; }));
+    var byItem = {};
+    items.forEach(function (it) { byItem[it] = {}; });
+    data.forEach(function (r) { byItem[r.name][r.lev] = +r.value; });
+
+    // Optional pre-wrap of long item labels.  Google Charts has no built-in
+    // category-label wrapping (issue #690); the only mechanism that works
+    // is embedded newlines in the row string.  Default to 50 chars for
+    // divbar (where item labels are often full survey items); explicit
+    // integer in labelwrap() overrides; off if labelwrap == "none".
+    var wrapW = 50;
+    if (meta.labelwrap === "none") wrapW = 0;
+    else if (meta.labelwrap && /^\d+$/.test(String(meta.labelwrap))) wrapW = +meta.labelwrap;
+    function wrapLabel(s, w) {
+      if (!w || !s || s.length <= w) return s;
+      var words = String(s).split(/\s+/), line = "", out = [];
+      for (var i = 0; i < words.length; i++) {
+        if ((line + " " + words[i]).trim().length > w) {
+          out.push(line.trim()); line = words[i];
+        } else { line = (line ? line + " " : "") + words[i]; }
+      }
+      if (line) out.push(line.trim());
+      return out.join("\n");
+    }
+    var displayItems = items.map(function (it) { return wrapLabel(it, wrapW); });
+
+    // Build the wide row layout.  Order: negs (in reverse so dark-neg
+    // sits at the far left), center-half, then pos.  Negatives are
+    // sign-flipped so they stack to the left of baseline.
+    var negOrder = negs.slice().reverse();
+    var dt = new google.visualization.DataTable();
+    dt.addColumn("string", meta.namelabel || "Item");
+    negOrder.forEach(function (lv) { dt.addColumn("number", String(lv)); });
+    if (centerLevel) {
+      dt.addColumn("number", String(centerLevel));
+    }
+    pos.forEach(function (lv) { dt.addColumn("number", String(lv)); });
+
+    items.forEach(function (it, idx) {
+      var row = [String(displayItems[idx])];
+      negOrder.forEach(function (lv) {
+        var v = byItem[it][lv]; row.push(v == null ? 0 : -Math.abs(+v));
+      });
+      if (centerLevel) {
+        var v = byItem[it][centerLevel]; row.push(v == null ? 0 : +v);
+      }
+      pos.forEach(function (lv) {
+        var v = byItem[it][lv]; row.push(v == null ? 0 : +v);
+      });
+      dt.addRow(row);
+    });
+
+    // Compute chartArea.left from the widest wrapped-label line so labels
+    // don't truncate.  Approximate width: 6.5 px per character at 11pt.
+    var maxLineLen = 0;
+    displayItems.forEach(function (s) {
+      String(s).split("\n").forEach(function (ln) {
+        if (ln.length > maxLineLen) maxLineLen = ln.length;
+      });
+    });
+    var leftPad = Math.min(Math.max(80, Math.ceil(maxLineLen * 6.5) + 20), 380);
+
+    // Build the diverging palette: reds for negatives (darker at extreme),
+    // a neutral grey for center, blues for positives.
+    var palette = paletteFor(meta);
+    function divColors(n, isLeft) {
+      // pick n colors from the palette ends
+      var bank = isLeft
+        ? ["#8c0d25","#cf3535","#ec7c66","#f7c6b1"]
+        : ["#bbd8eb","#7eb0d2","#3b86ba","#10487f"];
+      var out = [];
+      for (var i = 0; i < n; i++) out.push(bank[Math.min(i, bank.length-1)]);
+      return out;
+    }
+    var colors = []
+      .concat(divColors(negOrder.length, true))
+      .concat(centerLevel ? ["#e2e8f0"] : [])
+      .concat(divColors(pos.length, false));
+
+    var opts = deepMerge(brandOptions(meta), {
+      title: meta.title || "",
+      width: +meta.width || 980, height: +meta.height || 560,
+      isStacked: true,
+      colors: colors,
+      legend: { position: "top" },
+      hAxis: {
+        title: "",
+        baseline: 0,
+        // Show absolute values on the axis (so the negative-flipped scale
+        // doesn't display negative numbers to the reader).
+        format: "#'%'",
+        ticks: buildDivbarTicks(items, byItem, negOrder, centerLevel, pos)
+      },
+      vAxis: { title: "" },
+      chartArea: { left: leftPad, top: 50, width: ((+meta.width || 980) - leftPad - 40), height: "75%" },
+      bars: "horizontal",
+      bar: { groupWidth: "70%" },
+      animation: { startup: !!meta.animate, duration: 900, easing: "out" }
+    });
+    var container = document.getElementById("chart");
+    var chart = new google.visualization.BarChart(container);
+    return { type: "chart", className: "BarChart", chart: chart, dataTable: dt, opts: opts,
+             draw: function () { chart.draw(dt, opts); } };
+  }
+  function buildDivbarTicks(items, byItem, negOrder, centerLevel, pos) {
+    // Compute the symmetric outer bound across items so the axis is
+    // centered on the zero line.  Returns explicit ticks with formatted
+    // absolute labels.
+    var maxAbs = 0;
+    items.forEach(function (it) {
+      var negSum = negOrder.reduce(function (s, lv) { return s + Math.abs(+(byItem[it][lv] || 0)); }, 0);
+      var posSum = pos.reduce(function (s, lv) { return s + Math.abs(+(byItem[it][lv] || 0)); }, 0);
+      var ctr   = centerLevel ? Math.abs(+(byItem[it][centerLevel] || 0)) / 2 : 0;
+      maxAbs = Math.max(maxAbs, negSum + ctr, posSum + ctr);
+    });
+    var bound = Math.ceil(maxAbs / 10) * 10 || 10;
+    return [
+      { v: -bound, f: bound + "%" },
+      { v: -bound/2, f: (bound/2) + "%" },
+      { v: 0, f: "0%" },
+      { v:  bound/2, f: (bound/2) + "%" },
+      { v:  bound, f: bound + "%" }
+    ];
+  }
+
+  // ============================================================
+  //                   DASHBOARD + FILTERS
+  // ============================================================
+  function buildDashboardWithFilters(meta, dt, filterDefs, chartTypeName, opts) {
+    var dashRoot = document.getElementById("dashboard");
+    if (!dashRoot) {
+      // Create one inline if writehtml didn't allocate it.
+      dashRoot = document.createElement("div"); dashRoot.id = "dashboard";
+      document.getElementById("chart").parentNode.insertBefore(dashRoot, document.getElementById("chart"));
+    }
+    var dashboard = new google.visualization.Dashboard(dashRoot);
+
+    // Filter container
+    var filterHost = document.getElementById("gc-filters");
+    if (!filterHost) {
+      filterHost = document.createElement("div"); filterHost.id = "gc-filters";
+      filterHost.className = "gc-filters";
+      var chartEl = document.getElementById("chart");
+      chartEl.parentNode.insertBefore(filterHost, chartEl);
+    }
+    filterHost.innerHTML = "";
+
+    var ctrls = filterDefs.map(function (f, i) {
+      var slot = document.createElement("div");
+      slot.id = "gc-filter-" + i;
+      slot.className = "gc-filter-slot";
+      var label = document.createElement("label");
+      label.textContent = f.label || f.var;
+      label.htmlFor = slot.id;
+      filterHost.appendChild(label);
+      filterHost.appendChild(slot);
+      var controlType = f.numeric ? "NumberRangeFilter" : "CategoryFilter";
+      var ui = f.numeric
+        ? { labelStacking: "vertical" }
+        : { allowMultiple: f.allowMultiple !== false,
+            allowTyping: false,
+            labelStacking: "vertical",
+            caption: "All",
+            selectedValuesLayout: "belowStacked" };
+      return new google.visualization.ControlWrapper({
+        controlType: controlType,
+        containerId: slot.id,
+        options: {
+          filterColumnLabel: f.label || f.var,
+          ui: ui
+        }
+      });
+    });
+
+    var chartWrapper = new google.visualization.ChartWrapper({
+      chartType: chartTypeName,
+      containerId: "chart",
+      options: opts
+    });
+    dashboard.bind(ctrls, chartWrapper);
+    return dashboard;
+  }
+
+  // ============================================================
+  //                   CONTROLS PANEL (sidebar)
+  // ============================================================
+  function buildControlsPanel(meta, data, tipvars, filterDefs) {
+    var root = document.getElementById("controls");
+    if (!root) return;
+    root.innerHTML = "";
+    var dlpos = (meta.downloadpos || "side").toLowerCase();
+    var hideExport = (dlpos === "none");
+    var exportInFooter = (dlpos === "below");
+
+    // Filters (if any) live in the sidebar -- the engine builds the
+    // ControlWrappers in buildDashboardWithFilters().  Here we just
+    // reserve the slot.
+    if (filterDefs && filterDefs.length) {
+      var h3f = document.createElement("h3");
+      h3f.textContent = "Filters";
+      root.appendChild(h3f);
+      var fh = document.createElement("div"); fh.id = "gc-filters"; fh.className = "gc-filters";
+      root.appendChild(fh);
+    }
+
+    if ((meta.download || meta.datatable) && !hideExport && !exportInFooter) {
+      var h3 = document.createElement("h3");
+      h3.textContent = "View";
+      root.appendChild(h3);
+      buildExportMenu(root, meta);
+    }
+    var meta_div = document.createElement("div");
+    meta_div.id = "metabox"; meta_div.className = "meta";
+    meta_div.textContent = data.length + " rows";
+    root.appendChild(meta_div);
+
+    if (exportInFooter && !hideExport && (meta.download || meta.datatable)) {
+      var foot = document.getElementById("chart-footer");
+      if (foot) {
+        foot.classList.add("active");
+        foot.innerHTML = "";
+        buildExportMenu(foot, meta);
+      }
+    }
+    // Collapse the sidebar if it's empty after the Export was moved out.
+    var nonMeta = 0;
+    for (var i = 0; i < root.children.length; i++) {
+      if (root.children[i].id !== "metabox") nonMeta++;
+    }
+    if (nonMeta === 0) {
+      root.classList.add("empty");
+      var panels = document.querySelector(".panels");
+      if (panels) panels.classList.add("no-sidebar");
+    }
+  }
+
+  // ---- Export menu (the burger button inside the View / footer block) -----
+  function buildExportMenu(parent, meta) {
+    var wrap = document.createElement("div"); wrap.className = "exportmenu";
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "exportbtn";
+    btn.setAttribute("aria-haspopup", "true"); btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML = "Export &#9662;";
+    var menu = document.createElement("div"); menu.className = "exportlist"; menu.style.display = "none";
+    wrap.appendChild(btn); wrap.appendChild(menu); parent.appendChild(wrap);
+    function openMenu()  { menu.style.display = "block"; btn.setAttribute("aria-expanded", "true"); }
+    function closeMenu() { menu.style.display = "none";  btn.setAttribute("aria-expanded", "false"); }
+    btn.addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      if (menu.style.display === "none") openMenu(); else closeMenu();
+    });
+    document.addEventListener("click", closeMenu);
+    menu.addEventListener("click", function (ev) { ev.stopPropagation(); });
+    function addItem(label) {
+      var b = document.createElement("button"); b.type = "button"; b.textContent = label;
+      menu.appendChild(b); return b;
+    }
+    if (meta.download) {
+      var bPng = addItem("Download PNG"); bPng.dataset.action = "png";
+      var bSvg = addItem("Download SVG"); bSvg.dataset.action = "svg";
+    }
+    if (meta.datatable) {
+      var bCsv = addItem("Download CSV"); bCsv.dataset.action = "csv";
+      var bView = addItem("View data table"); bView.dataset.action = "viewdata";
+    }
+    parent.__exportCloseMenu = closeMenu;
+  }
+
+  // ---- Wire menu clicks to the live chart instance ------------------------
+  function wireExportMenu(meta, ctx, data, tipvars) {
+    // Selector covers both the sidebar menu and the under-chart footer menu.
+    var menus = document.querySelectorAll(".exportlist");
+    menus.forEach(function (menu) {
+      menu.addEventListener("click", function (ev) {
+        var b = ev.target;
+        if (b.tagName !== "BUTTON") return;
+        var action = b.dataset.action;
+        if (action === "png")      downloadPNG(ctx, meta);
+        else if (action === "svg") downloadSVG(meta);
+        else if (action === "csv") downloadCSV(ctx);
+        else if (action === "viewdata") toggleDataTable(ctx, meta, data, tipvars);
+      });
+    });
+  }
+
+  function triggerDownload(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a"); a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 5000);
+  }
+  function downloadPNG(ctx, meta) {
+    // chart.getImageURI() works on corechart classes and GeoChart.  For
+    // chart types where it isn't supported, fall back to SVG serialization.
+    var chart = ctx.chart || (ctx.dashboard && ctx.dashboard.getChart && ctx.dashboard.getChart());
+    if (!chart || typeof chart.getImageURI !== "function") {
+      return downloadSVG(meta);
+    }
+    var uri = chart.getImageURI();
+    fetch(uri).then(function (r) { return r.blob(); }).then(function (blob) {
+      triggerDownload(blob, "googlechart_" + (meta.type || "chart") + ".png");
+    }).catch(function () {
+      // Inline data-URI fallback (older browsers / blob: scheme blocked)
+      var a = document.createElement("a");
+      a.href = uri;
+      a.download = "googlechart_" + (meta.type || "chart") + ".png";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    });
+  }
+  function downloadSVG(meta) {
+    var container = document.getElementById("chart");
+    var svg = container.getElementsByTagName("svg")[0];
+    if (!svg) { alert("This chart type does not render an SVG (try PNG instead)."); return; }
+    var clone = svg.cloneNode(true);
+    if (!clone.getAttribute("xmlns")) clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    clone.setAttribute("width",  svg.getAttribute("width")  || svg.clientWidth);
+    clone.setAttribute("height", svg.getAttribute("height") || svg.clientHeight);
+    var text = new XMLSerializer().serializeToString(clone);
+    var blob = new Blob([text], { type: "image/svg+xml;charset=utf-8" });
+    triggerDownload(blob, "googlechart_" + (meta.type || "chart") + ".svg");
+  }
+  function downloadCSV(ctx) {
+    if (!ctx.dataTable) { alert("No data table to export."); return; }
+    var csv = google.visualization.dataTableToCsv(ctx.dataTable);
+    var blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    triggerDownload(blob, "googlechart_data.csv");
+  }
+
+  // ---- Collapsible data-table panel ---------------------------------------
+  function toggleDataTable(ctx, meta, data, tipvars) {
+    var host = document.getElementById("datatable");
+    if (!host) return;
+    if (host.classList.contains("open")) {
+      host.classList.remove("open");
+      host.style.display = "none";
+      host.innerHTML = "";
+      return;
+    }
+    var dt = ctx.dataTable;
+    var nCols = dt.getNumberOfColumns();
+    var nRows = dt.getNumberOfRows();
+    var html = "<div class='dt-header'><strong>Data behind the chart</strong> "
+      + "<span class='dt-count'>" + nRows + " rows</span>"
+      + "<button type='button' class='dt-close' aria-label='Close'>&times;</button></div>";
+    html += "<div class='dt-scroll'><table class='dt-table'><thead><tr>";
+    for (var c = 0; c < nCols; c++) html += "<th>" + esc(dt.getColumnLabel(c)) + "</th>";
+    html += "</tr></thead><tbody>";
+    var MAX = 500;
+    for (var r = 0; r < Math.min(nRows, MAX); r++) {
+      html += "<tr>";
+      for (var c = 0; c < nCols; c++) {
+        var v = dt.getFormattedValue(r, c);
+        if (v === "" || v == null) v = dt.getValue(r, c);
+        html += "<td>" + esc(v == null ? "" : v) + "</td>";
+      }
+      html += "</tr>";
+    }
+    html += "</tbody></table></div>";
+    if (nRows > MAX) {
+      html += "<div class='dt-truncated'>Showing first " + MAX + " of " + nRows
+        + " rows -- use <em>Download CSV</em> for the full set.</div>";
+    }
+    host.innerHTML = html;
+    host.classList.add("open");
+    host.style.display = "block";
+    host.querySelector(".dt-close").addEventListener("click", function () {
+      toggleDataTable(ctx, meta, data, tipvars);
+    });
+  }
+
+  // ---- IntersectionObserver-gated initial draw ----------------------------
+  function setupAnimateOnView(meta, ctx) {
+    if (typeof IntersectionObserver === "undefined" || !meta.animate) {
+      ctx.draw();
+      return;
+    }
+    var target = document.getElementById("chart");
+    if (!target) { ctx.draw(); return; }
+    // Reserve the slot now so the page layout doesn't jump when the chart
+    // finally draws into the empty container.
+    target.style.minHeight = (+meta.height || 560) + "px";
+    var fired = false;
+    function fire() {
+      if (fired) return;
+      fired = true;
+      ctx.draw();
+    }
+
+    // When this page is loaded inside an iframe (e.g. via sparkta2_dashboard
+    // embedding the chart HTML), the chart container is ALWAYS in the
+    // iframe's viewport from the moment the iframe loads -- the local
+    // IntersectionObserver would fire immediately and the animation
+    // would play before the user has scrolled near it in the parent
+    // page.  Observe the iframe element from the PARENT's viewport
+    // instead so the animation fires when the reader actually sees it.
+    // Only works for same-origin parents (which sparkta2_dashboard is).
+    var inIframe = false;
+    var frameEl = null;
+    var parentWin = null;
+    try {
+      if (window.frameElement) {  // throws on cross-origin
+        frameEl = window.frameElement;
+        parentWin = window.parent;
+        inIframe = !!(frameEl && parentWin && parentWin.IntersectionObserver);
+      }
+    } catch (e) { inIframe = false; }
+
+    if (inIframe) {
+      // Cross-context IntersectionObserver behaviour is uneven
+      // (Chrome devtools-protocol renderers in particular don't fire
+      // events on iframe elements observed from inside the frame).
+      // Use a poll instead: 4x/sec we ask the parent window where the
+      // iframe sits and fire when ~15% of the frame's height is on
+      // screen.  Same wall-clock effect as IO, more predictable.
+      var pollIv = setInterval(function () {
+        if (fired) { clearInterval(pollIv); return; }
+        try {
+          var prect = frameEl.getBoundingClientRect();
+          var pvh = parentWin.innerHeight || parentWin.document.documentElement.clientHeight;
+          var visible = Math.min(prect.bottom, pvh) - Math.max(prect.top, 0);
+          if (visible > prect.height * 0.15) {
+            clearInterval(pollIv);
+            fire();
+          }
+        } catch (e) {
+          // Cross-origin or other access failure -- fall back to local
+          clearInterval(pollIv);
+          fire();
+        }
+      }, 250);
+      // Final safety net: 30 s out, fire regardless so nothing sits idle.
+      setTimeout(function () { if (!fired) { clearInterval(pollIv); fire(); } }, 30000);
+      return;
+    }
+
+    // Standalone (non-iframed) page: observe in the local document.  If
+    // the chart is already in viewport at setup time, fire immediately.
+    var rect = target.getBoundingClientRect();
+    var viewH = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.top < viewH && rect.bottom > 0) {
+      fire();
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && !fired) { io.disconnect(); fire(); }
+      });
+    }, { threshold: 0.2 });
+    io.observe(target);
+    setTimeout(function () { if (!fired) { try { io.disconnect(); } catch(e){} fire(); } }, 1500);
+  }
+
+  // ---- Entry point --------------------------------------------------------
+  function render(cfg) { bootstrap(cfg); }
+  window.googlechartRender = render;
+})();
+
+</script>
+<script>googlechartRender(window.__GOOGLECHART__);</script>
+</body></html>

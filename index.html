@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>googlechart demo &middot; Interacting with Google from Stata</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#1B2D55;--accent:#D44500;--link:#2B6CB0;--bg:#F5F7FA;--muted:#6C7A8D;--card:#fff;--line:#e2e8f0;--sage:#7A9D54;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;letter-spacing:-0.005em;}
+  header{background:var(--ink);color:#fff;padding:34px 20px 30px;}
+  header .inner,main{max-width:1080px;margin:0 auto;}
+  header h1{margin:0 0 6px;font-size:1.85rem;font-weight:700;letter-spacing:-0.02em;}
+  header p{margin:4px 0 0;color:#cdd7e6;font-size:1.02rem;max-width:820px;}
+  header .tag{display:inline-block;margin-bottom:12px;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:#fff;padding:4px 10px;border-radius:20px;}
+  main{padding:26px 20px 60px;}
+  .callout{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:16px 18px;margin:0 0 26px;font-size:.95rem;box-shadow:0 1px 2px rgba(15,23,42,.05);}
+  .callout h2{margin:0 0 8px;font-size:1rem;color:var(--ink);}
+  .callout code{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:.86rem;}
+  .callout ol{margin:8px 0 0;padding-left:20px;}
+  .callout li{margin:4px 0;}
+  section.chart{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 18px 6px;margin:0 0 26px;box-shadow:0 1px 3px rgba(15,23,42,.06);}
+  section.chart h3{margin:0 0 4px;font-size:1.18rem;color:var(--ink);}
+  section.chart h3 .n{color:var(--accent);font-weight:700;margin-right:8px;}
+  section.chart .desc{margin:0 0 6px;color:var(--muted);font-size:.92rem;max-width:860px;}
+  section.chart .cmd{margin:6px 0 10px;font-size:.82rem;color:var(--link);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;overflow:auto;white-space:pre;}
+  iframe{width:100%;border:0;border-top:1px solid var(--line);border-radius:0 0 10px 10px;background:#fff;}
+  footer{border-top:1px solid var(--line);padding:24px 20px 60px;color:var(--muted);font-size:.85rem;}
+  footer .inner{max-width:1080px;margin:0 auto;}
+  a{color:var(--link);}
+  .badges a{display:inline-block;background:#eef2f7;border:1px solid var(--line);border-radius:20px;padding:3px 11px;margin:3px 6px 3px 0;font-size:.78rem;color:var(--ink);text-decoration:none;cursor:pointer;transition:background .12s,border-color .12s,color .12s;}
+  .badges a:hover,.badges a:focus{background:var(--ink);color:#fff;border-color:var(--ink);}
+  section.chart{scroll-margin-top:16px;}
+</style>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <span class="tag">Stata &times; Google Charts</span>
+    <h1>Interacting with Google from Stata</h1>
+    <p>A live gallery for the <strong>googlechart</strong> Stata package, built entirely from
+       one Stata do-file. Every chart below was written to a self-contained HTML file by
+       <code>googlechart</code> using the 2025 County Health Rankings state-level data.</p>
+  </div>
+</header>
+
+<main>
+  <div class="callout">
+    <h2>How to read this page</h2>
+    <p>Each panel is an interactive Google Chart. Hover for tooltips; use the
+       <em>Export</em> menu (PNG / SVG) and the <em>View data table</em> / CSV controls beside each
+       chart. Charts fade in as you scroll.</p>
+    <ol>
+      <li><strong>Internet is required.</strong> Google Charts loads its engine from Google's CDN at view time, so these pages do not render offline.</li>
+      <li><strong>Reproduce it.</strong> Install the package in Stata:
+        <code>net install googlechart, from("https://raw.githubusercontent.com/ericabooth/googlechart-stata-public/master/") replace</code>,
+        then run the article's <code>googletools_example.do</code>.</li>
+      <li><strong>Palette.</strong> The Texas 2036 brand (navy&nbsp;#1B2D55, orange&nbsp;#D44500, Montserrat) is applied throughout via the <code>tx2036style</code> option.</li>
+    </ol>
+    <div class="badges">
+      <a href="#geo">geo</a><a href="#bar">bar</a><a href="#scatter">scatter</a><a href="#bubble">bubble</a><a href="#table">searchable table</a><a href="#divbar">diverging stacked bar</a>
+    </div>
+  </div>
+
+  <section class="chart" id="geo">
+    <h3><span class="n">1</span>Uninsured rate by state (choropleth)</h3>
+    <p class="desc">A US state-level choropleth of the 2025 uninsured rate. Texas has the
+       highest uninsured rate in the nation. GeoChart supports country and US-state resolution.</p>
+    <div class="cmd">googlechart uninsured, name(geo_code) type(geo) georegion("US") georesolution("us-states") tx2036style scheme(blues) ...</div>
+    <iframe src="charts/01_geo_uninsured.html" height="815" scrolling="no" title="Uninsured rate by state"></iframe>
+  </section>
+
+  <section class="chart" id="bar">
+    <h3><span class="n">2</span>Highest-uninsured states (ranked bar)</h3>
+    <p class="desc">The fifteen states with the highest uninsured rate, with on-bar value labels
+       (<code>directlabels</code>). Horizontal bars keep long labels readable.</p>
+    <div class="cmd">googlechart uninsured, name(usps) type(bar) directlabels tx2036style download datatable downloadpos(below) ...</div>
+    <iframe src="charts/02_bar_uninsured.html" height="790" scrolling="no" title="Highest uninsured states"></iframe>
+  </section>
+
+  <section class="chart" id="scatter">
+    <h3><span class="n">3</span>Income vs premature death (scatter)</h3>
+    <p class="desc">Each point is a state: median household income against premature death
+       (years of potential life lost). Extra fields ride along in the tooltip via <code>tooltipvars()</code>.</p>
+    <div class="cmd">googlechart median_income premature_death, name(state) type(scatter) tooltipvars(uninsured child_poverty) tx2036style ...</div>
+    <iframe src="charts/03_scatter_income_ypll.html" height="790" scrolling="no" title="Income vs premature death"></iframe>
+  </section>
+
+  <section class="chart" id="bubble">
+    <h3><span class="n">4</span>Poverty, death, and rurality (bubble)</h3>
+    <p class="desc">A four-variable view: child poverty (x), premature death (y), rural share
+       (bubble size), and an uninsured band (color, via <code>over()</code>).</p>
+    <div class="cmd">googlechart child_poverty premature_death, name(usps) over(highunins) sizevar(pct_rural) time(year) type(bubble) ...</div>
+    <iframe src="charts/04_bubble.html" height="985" scrolling="no" title="Poverty, death, rurality bubble"></iframe>
+  </section>
+
+  <section class="chart" id="table">
+    <h3><span class="n">5</span>All measures (searchable table)</h3>
+    <p class="desc">Every state and measure in one interactive table with a free-text search box
+       (<code>tablesearch</code>) and a sticky header (<code>tableheadersticky</code>). Type a state or
+       number to filter live.</p>
+    <div class="cmd">googlechart, type(table) tooltipvars(state uninsured median_income ...) tablesearch tableheadersticky ...</div>
+    <iframe src="charts/05_table.html" height="750" scrolling="no" title="Searchable table of measures"></iframe>
+  </section>
+
+  <section class="chart" id="divbar">
+    <h3><span class="n">6</span>Texans on state policy (diverging stacked bar)</h3>
+    <p class="desc">A Pew-style diverging stacked bar for Likert items, with the neutral category
+       centered on zero. The survey data here are <em>illustrative</em> (not from County Health Rankings).</p>
+    <div class="cmd">googlechart share, name(q) level(response) type(divbar) levelorder("Strongly disagree|...|Strongly agree") centerlevel(Neutral) ...</div>
+    <iframe src="charts/06_divbar.html" height="685" scrolling="no" title="Diverging stacked bar"></iframe>
+  </section>
+</main>
+
+<footer>
+  <div class="inner">
+    <p>Charts generated by the <strong>googlechart</strong> Stata package
+       (<a href="https://github.com/ericabooth/googlechart-stata-public">github.com/ericabooth/googlechart-stata-public</a>),
+       a companion to <strong>googlesheets</strong>
+       (<a href="https://github.com/ericabooth/googlesheets-stata-public">github.com/ericabooth/googlesheets-stata-public</a>).</p>
+    <p>Data: County Health Rankings &amp; Roadmaps 2025, University of Wisconsin Population Health Institute.
+       Built atop the Google Charts Visualization API; not affiliated with or endorsed by Google.</p>
+    <p>Eric A. Booth, Texas 2036 &middot; companion page for the Stata Journal article
+       &ldquo;googlesheets and googlechart.&rdquo;</p>
+  </div>
+</footer>
+<script>
+  // Make the header chips jump to their chart section reliably.
+  document.querySelectorAll('.badges a').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var el = document.querySelector(a.getAttribute('href'));
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ block: 'start' });
+        history.replaceState(null, '', a.getAttribute('href'));
+      }
+    });
+  });
+</script>
+</body>
+</html>
