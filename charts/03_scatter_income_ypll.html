@@ -3,15 +3,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Median income vs premature death (states, 2025)</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
 :root{--ink:#1B2D55;--accent:#D44500;--link:#2B6CB0;--bg:#F5F7FA;--muted:#6C7A8D;--card:#ffffff;--line:#e2e8f0;}
-*{box-sizing:border-box;}body{margin:0;font-family:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);font-weight:400;letter-spacing:-0.005em;}
-h1{font-weight:700;letter-spacing:-0.01em;}
-.controls h3{font-weight:600;}
+*{box-sizing:border-box;}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);}
 .wrap{max-width:1180px;margin:0 auto;padding:24px 18px 48px;}
 h1{font-size:1.5rem;margin:0 0 4px;color:var(--ink);}
 .sub{color:var(--muted);margin:0 0 16px;font-size:.95rem;}
@@ -93,7 +88,7 @@ h1{font-size:1.5rem;margin:0 0 4px;color:var(--ink);}
 <script>
 window.__GOOGLECHART__ = {
 "meta":{
-"type":"scatter","scheme":"tx2036",
+"type":"scatter","scheme":"viridis",
 "width":920,"height":560,
 "title":"Median income vs premature death (states, 2025)","subtitle":"","note":"",
 "xvar":"median_income","yvar":"premature_death",
@@ -102,7 +97,7 @@ window.__GOOGLECHART__ = {
 "namelabel":"","valuelabel":"",
 "levelorder":"","centerlevel":"",
 "download":1,"datatable":1,"animate":1,
-"tx2036style":1,"downloadpos":"below",
+"tx2036style":0,"downloadpos":"below",
 "stacked":0,"normalize":0,"directlabels":0,
 "innerradius":.45,"bucketsize":0,
 "geo_region":"","geo_resolution":"",
@@ -800,10 +795,9 @@ window.__GOOGLECHART__ = {
       filterHost.innerHTML = "";
       var slot = document.createElement("div");
       slot.id = "gc-filter-time";
-      var label = document.createElement("label");
-      label.htmlFor = slot.id;
-      label.textContent = meta.time || "Time";
-      filterHost.appendChild(label);
+      // The NumberRangeFilter renders its own label from filterColumnLabel, so
+      // the wrapper does not add a second <label> here: doing so printed the
+      // time variable's name twice above the slider.
       filterHost.appendChild(slot);
       var playBtn = document.createElement("button");
       playBtn.id = "gc-play"; playBtn.textContent = "▶ Play";
